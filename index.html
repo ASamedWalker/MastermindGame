@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mastermind</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <header class="header-section">
+        <h1 class="header-title">Mastermind</h1>
+      </header>
+
+      <div class="game-board-display"></div>
+
+      <div class="color-picker-display"></div>
+
+      <div class="high-score-display">
+        <h2>High Scores <span class="game-mode">Normal</span></h2>
+        <ul class="high-score-container"></ul>
+      </div>
+
+      <div class="new-game">
+        <form class="game-options">
+          <select class="difficulty">
+            <option value="easy">easy</option>
+            <option value="normal" selected>normal</option>
+            <option value="hard">hard</option>
+          </select>
+          <button class="btn-new-game">New Game</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="overlay hidden"></div>
+    <div class="alert hidden"></div>
+    <script src="js/Controller.js" type="module"></script>
+  </body>
+</html>
