@@ -1,4 +1,4 @@
-import { MIN_NUMBER, MAX_NUMBER, NUM_OF_NUMBERS } from "./config.js";
+import { MIN_NUMBER, MAX_NUMBER, NUM_OF_NUMBERS } from "./Config.js";
 
 class CodeMaker {
     async fetchRandomNumbers() {
@@ -9,10 +9,14 @@ class CodeMaker {
             });
 
         const result = await response.text();
-        const randomSequence = result.split('\n').slice(0, NUM_OF_NUMBERS);
-        const randomNumbers = randomSequence.map(item => {
-            return parseInt(item, 10);
-        });
+        if (result !== null) {
+            const randomSequence = result.split('\n').slice(0, NUM_OF_NUMBERS);
+            const randomNumbers = randomSequence.map(item => {
+                return parseInt(item, 10);
+            });
+        } else {
+            // generate random sequence
+        }
 
         return randomNumbers;
     }

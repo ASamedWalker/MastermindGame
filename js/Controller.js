@@ -1,60 +1,38 @@
+'use strict';
+
 import {default as codeMaker} from "./CodeMaker.js";
-import { NUM_OF_NUMBERS, MAX_TRIES } from './config.js';
+import { NUM_OF_NUMBERS, MAX_TRIES } from './Config.js';
 import * as model from "./Model.js";
+import { default as UI } from './UI.js';
 
-codeMaker.fetchRandomNumbers().then(randomNumbers => {
+// initialize game
+const startGame = async () => {
+  // initialize user code to empty array
+  model.gameState.userCode = [];
 
-    model.setSecretCode(randomNumbers);
-    console.log(model.gameState);
+  // set first try to 0
+  model.gameState.currentTurn = 0;
 
-    model.gameState.numOfTries = 0;
-    let hasWon = false;
-  
-    // game loop
-    while (hasWon === false && model.gameState.numOfTries < MAX_TRIES) {
-      
-      let guess = readInput();
-      const guessedNumbers = guess.split('').map(item => {
-        return parseInt(item, 10);
-      });
+  // set start time ? optional
+  // get secret code, need to store into variable
+  let secretCode = await codeMaker.fetchRandomNumbers();
 
-      const occurrences = compareCodes(model.gameState.secretCode, guessedNumbers);
-      console.log(occurrences);
+  // set secret code in model
+  model.setSecretCode(secretCode);
 
-      if (occurrences.inPlaceCount === NUM_OF_NUMBERS) {
-        console.log('WON! You guessed it');
-        hasWon = true;
-      } else if (occurrences.inPlaceCount === 0 && occurrences.changedPlaceCount === 0) {
-        console.log("No occurrences");
-      } else {
-        console.log('In place: ' + occurrences.inPlaceCount);
-        console.log('Changed place: ' + occurrences.changedPlaceCount);
-      }
+  // delegate to view to create a board
+  UI.renderBoard();
 
-      model.incrementNumOfTries();
+  // delegate to view to update the existing turn/try
+  UI.updateTurn(model.gameState.currentTurn);
 
-      console.log(model.gameState.numOfTries, hasWon);
-    }
-
-    if (model.gameState.numOfTries === MAX_TRIES) {
-      console.log('GAME OVER');
-    }
-});
-
-const readInput = () => {
-  while (true) {
-    const guess = prompt("Guess a number combination");
-    if (guess !== null) {
-      if (guess.length === 4) {
-        return guess;
-      }
-
-      if (guess.length === 0 || guess.length > 4) {
-        alert('Out of range');
-      }
-    }
-  }
+  // delegate to controls view to create undo/submit controls
+  // add event listener to controls
+  // update the high scores ? optional
 }
+
+// create new game
+startGame();
 
 const compareCodes = (secretCode, guessedNumbers) => {
   let inPlaceCount = 0;
@@ -75,3 +53,42 @@ const compareCodes = (secretCode, guessedNumbers) => {
       changedPlaceCount
     };
 }
+
+// const randomNumbers = await codeMaker.fetchRandomNumbers();
+// console.log(randomNumbers);
+
+// model.setSecretCode(randomNumbers);
+// console.log(model.gameState);
+
+// model.gameState.numOfTries = 0;
+// let hasWon = false;
+  
+// // game loop
+// while (hasWon === false && model.gameState.numOfTries < MAX_TRIES) {
+      
+//   //let guess = readInput();
+//   let guess = 1234;
+//   const guessedNumbers = guess.split('').map(item => {
+//     return parseInt(item, 10);
+//   });
+
+//   const occurrences = compareCodes(model.gameState.secretCode, guessedNumbers);
+//   console.log(occurrences);
+
+//   if (occurrences.inPlaceCount === NUM_OF_NUMBERS) {
+//     console.log('WON! You guessed it');
+//     hasWon = true;
+//   } else if (occurrences.inPlaceCount === 0 && occurrences.changedPlaceCount === 0) {
+//     console.log("No occurrences");
+//   } else {
+//     console.log('In place: ' + occurrences.inPlaceCount);
+//     console.log('Changed place: ' + occurrences.changedPlaceCount);
+//   }
+
+//   model.incrementNumOfTries();
+//   console.log(model.gameState.numOfTries, hasWon);
+// }
+
+// if (model.gameState.numOfTries === MAX_TRIES) {
+//   console.log('GAME OVER');
+// }

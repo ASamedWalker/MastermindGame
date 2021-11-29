@@ -90,7 +90,7 @@ body {
 }
 
 /*COLOR PICKER*/
-.color-picker-display {
+.color-picker-view {
   grid-area: 3 / 1 / 4 / 2;
   margin: 0 auto;
   display: flex;
@@ -99,12 +99,10 @@ body {
   align-items: center;
 }
 
-.color-choice {
+.choice {
   height: 2.2rem;
   width: 2.2rem;
   border: 2px solid var(--peg-black);
-  border-radius: 100%;
-  cursor: pointer;
   margin: 0 0.15rem;
 }
 
@@ -121,53 +119,58 @@ body {
 }
 
 /*Game board-display*/
-.game-board-display {
+.game-board-view {
   grid-area: 2 / 1 / 3 / 2;
   margin: 0 auto;
 }
 
-.game-turn {
+.game-try {
   min-width: 15rem;
   min-height: 2.8rem;
-  margin: 0.1rem 0;
+  margin: 0.5rem 0;
   border-radius: 0.3rem;
   display: flex;
   justify-content: space-around;
   border: 0.1rem solid var(--peg-black);
 }
 
-.game-turn-pegs,
-.game-turn-flags {
+.choice-row,
+.occurrence-status-row {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.game-turn-pegs {
+.choice-row {
   width: 75%;
 }
 
-.game-turn-flags {
-  width: 20%;
-  flex-wrap: wrap;
+.occurrence-status-row {
+  width: 25%;
 }
 
-.game-turn-active {
+.current-turn {
   background: linear-gradient(90deg, #f4fc84, #fcc796);
 }
 
-.game-turn-miss {
+.played-turn {
   background: none;
 }
 
-.color-peg {
+.choice-number {
   width: 2rem;
   height: 2rem;
+  text-align: center;
 }
 
-.color-flag {
-  width: 0.6rem;
-  height: 0.6rem;
+.choice-number span {
+  font-size: 2.0rem;
+  font-weight: bold;
+}
+
+.occurrence-status-flag {
+  width: 0.2rem;
+  height: 0.2rem;
 }
 
 /* highscors */
@@ -281,8 +284,8 @@ label {
 
   .header-section,
   .new-game,
-  .game-board-display,
-  .color-picker-display {
+  .game-board-view,
+  .color-picker-view {
     padding-bottom: 1rem;
   }
 
@@ -294,11 +297,11 @@ label {
     grid-area: 2 / 1 / 3 / 2;
   }
 
-  .game-board-display {
+  .game-board-view {
     grid-area: 3 / 1 / 4 / 2;
   }
 
-  .color-picker-display {
+  .color-picker-view {
     grid-area: 4 / 1 / 5 / 2;
     flex-wrap: wrap;
   }
