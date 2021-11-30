@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-import {default as codeMaker} from "./CodeMaker.js";
-import { NUM_OF_NUMBERS, MAX_TRIES } from './Config.js';
+import { default as codeMaker } from "./CodeMaker.js";
+import { NUM_OF_NUMBERS, MAX_TRIES } from "./Config.js";
 import * as model from "./Model.js";
-import { default as UI } from './UI.js';
+import { default as UI } from "./UI.js";
 
 // initialize game
 const startGame = async () => {
@@ -27,9 +27,11 @@ const startGame = async () => {
   UI.updateTurn(model.gameState.currentTurn);
 
   // delegate to controls view to create undo/submit controls
+  
+
   // add event listener to controls
   // update the high scores ? optional
-}
+};
 
 // create new game
 startGame();
@@ -40,19 +42,19 @@ const compareCodes = (secretCode, guessedNumbers) => {
 
   for (let i = 0; i < guessedNumbers.length; i++) {
     // compare digit from guessed code with one from secret code
-      const index = secretCode.indexOf(guessedNumbers[i]);
-      if (guessedNumbers[i] === secretCode[i]) {
-        inPlaceCount++;
-      } else if (index !== -1 && i !== index) {
-          changedPlaceCount++;
-      }
-    } 
+    const index = secretCode.indexOf(guessedNumbers[i]);
+    if (guessedNumbers[i] === secretCode[i]) {
+      inPlaceCount++;
+    } else if (index !== -1 && i !== index) {
+      changedPlaceCount++;
+    }
+  }
 
-    return {
-      inPlaceCount,
-      changedPlaceCount
-    };
-}
+  return {
+    inPlaceCount,
+    changedPlaceCount,
+  };
+};
 
 // const randomNumbers = await codeMaker.fetchRandomNumbers();
 // console.log(randomNumbers);
@@ -62,10 +64,10 @@ const compareCodes = (secretCode, guessedNumbers) => {
 
 // model.gameState.numOfTries = 0;
 // let hasWon = false;
-  
+
 // // game loop
 // while (hasWon === false && model.gameState.numOfTries < MAX_TRIES) {
-      
+
 //   //let guess = readInput();
 //   let guess = 1234;
 //   const guessedNumbers = guess.split('').map(item => {

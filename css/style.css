@@ -90,7 +90,7 @@ body {
 }
 
 /*COLOR PICKER*/
-.color-picker-view {
+.number-picker-view {
   grid-area: 3 / 1 / 4 / 2;
   margin: 0 auto;
   display: flex;
@@ -285,7 +285,7 @@ label {
   .header-section,
   .new-game,
   .game-board-view,
-  .color-picker-view {
+  .number-picker-view {
     padding-bottom: 1rem;
   }
 
@@ -301,7 +301,7 @@ label {
     grid-area: 3 / 1 / 4 / 2;
   }
 
-  .color-picker-view {
+  .number-picker-view {
     grid-area: 4 / 1 / 5 / 2;
     flex-wrap: wrap;
   }
