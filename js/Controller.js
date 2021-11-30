@@ -46,7 +46,7 @@ const compareCodes = (secretCode, guessedNumbers) => {
       } else if (index !== -1 && i !== index) {
           changedPlaceCount++;
       }
-    }
+    } 
 
     return {
       inPlaceCount,
