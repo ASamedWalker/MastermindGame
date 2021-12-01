@@ -9,14 +9,10 @@ class CodeMaker {
             });
 
         const result = await response.text();
-        if (result !== null) {
-            const randomSequence = result.split('\n').slice(0, NUM_OF_NUMBERS);
-            const randomNumbers = randomSequence.map(item => {
-                return parseInt(item, 10);
-            });
-        } else {
-            // generate random sequence
-        }
+        const randomSequence = result.split('\n').slice(0, NUM_OF_NUMBERS);
+        const randomNumbers = randomSequence.map(item => {
+            return parseInt(item, 10);
+        });
 
         return randomNumbers;
     }

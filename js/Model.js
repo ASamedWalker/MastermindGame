@@ -1,6 +1,6 @@
 export const gameState = {
     secretCode: [],
-    userCode: [],
+    guessedCode: [],
     currentTurn: 0,
 }
 
