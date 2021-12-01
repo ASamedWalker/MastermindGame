@@ -15,11 +15,11 @@ class BoardView {
             const html = `
             <div class="game-try" data-turn="${i}">
                 <div class="choice-row">
-                    ${this.renderHTMLForChoices()}
+                    ${this.getHTMLForChoices()}
                 </div>
 
                 <div class="occurrence-status-row">
-                    ${this.renderHTMLForOccurrenceStatusFlags()}
+                    ${this.getHTMLForOccurrenceStatusFlags()}
                 </div>
             </div>
             `;
@@ -29,7 +29,7 @@ class BoardView {
 
     //create and return html for textual or graphic representation of number sequence
     //-------------------------------------------------------------
-    renderHTMLForChoices() {
+    getHTMLForChoices() {
         let html = '';
         for (let i = 0; i < NUM_OF_NUMBERS; i++) {
             html += `<div class="choice choice-number" data-choice="${i}"><span class="number">${i}</span></div>`;
@@ -39,7 +39,7 @@ class BoardView {
 
     //create and return html for occurrence flags (renders only once the HTML)
     //-------------------------------------------------------------
-    renderHTMLForOccurrenceStatusFlags() {
+    getHTMLForOccurrenceStatusFlags() {
         let html = '';
         for (let i = 0; i < NUM_OF_NUMBERS; i++) {
             html += `<div class="choice occurrence-status-flag" data-occurrence-status="${i}"></div>`;
