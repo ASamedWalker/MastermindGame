@@ -14,7 +14,6 @@ class ControlView {
   }
 
   renderControls() {
-
     this.#element.innerHTML = '';
 
     let html = '';

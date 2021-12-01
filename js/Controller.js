@@ -6,6 +6,19 @@ import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
 import ControlView from "./views/ControlView.js";
 
+// In game loop (real time)
+//    handleUserInput()
+//    updateGame()
+//    updateAI() is optional
+//    render(data)
+
+// Web HTTP Request
+//    HTTP POST request comes in from HTML form (GET in case with search query in URL, q=game programming)
+//    Routing chooses the controller by the API URL posts/ (routing decides which controller)
+//    Service delegates the use case, all the business rules, to decide whichj data need to fetch
+//    Fetches from DB the data, maps to model
+//    Returned data pass to the template, render the data
+
 // initialize game
 const startGame = async () => {
   // initialize guessed code to empty array
@@ -42,24 +55,31 @@ startGame();
 
 const clickHandler = (button) => {
   // check if control undo is pressed
-  if (button.dataset.control === 'undo') {
-    console.log('undo the selection');
-    console.log("");
+  if (button.dataset.control === "undo") {
+    console.log("undo the number in row");
+    console.log("Pop returns the number from the Model.gameState");
+    console.log("The UI gets updated and renders");
+    console.log("unselect the number which was selected to the row");
   } else if (button.dataset.control === "submit") {
     console.log("submit is pressed");
-    console.log("Compare the code (1234) and return status flags");
+    console.log(
+      "(Game Engine) Compare the code (1234) (Model) and return status flags"
+    );
     console.log("Render the status to the UI, provide visual feedback");
     console.log("Check if the player has won");
     console.log("Check if the player guessed number wrong");
-
     console.log("Check if the player has lost");
   } else {
     // get the pressed number from dataset selectedNumber
-    //const selectedNumber =  
+    //const selectedNumber =
     console.log("Number is pressed");
-    console.log("Push number to secret code array");
-    console.log("Modal alert (UI) OR Replace the number in the last position OR no feedback");
-    console.log("Render the number to be displayed to the UI");
+    console.log("Push selected number to guessed code array (Model->gameState)");
+    console.log("Check for code length (Model)(Game Engine)");
+    console.log("Modal alert window (UI)");
+    console.log(
+      "OPTIONAL Replace the number in the last position OR no feedback"
+    );
+    console.log("OR Render the number to be displayed to the UI");
   }
   // check if control submit is pressed
   // fall through to handle numbers
@@ -69,8 +89,7 @@ const clickHandler = (button) => {
   // undo the number in turn row
   // OR
   // submit the combination
-}
-
+};
 
 // compare codes
 const compareCodes = (secretCode, guessedCode) => {
