@@ -4,13 +4,10 @@ class ControlView {
   #element = document.querySelector(".number-picker-view");
 
   renderControls() {
-    // render number picker
-    // render control buttons
+    // render HTML for number picker
+    // render HTML for control buttons
     // result HTML insert in DOM
-    
   }
-
-  
 }
 
 export default new ControlView();
