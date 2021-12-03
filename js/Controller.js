@@ -54,41 +54,38 @@ startGame();
 // ---------------------------------------------------------------------------------------
 
 const clickHandler = (button) => {
+  const {secretCode, guessedCode} = model.gameState;
+  let {control, selectedNumber} = button.dataset;
+
   // check if control undo is pressed
-  if (button.dataset.control === "undo") {
-    console.log("undo the number in row");
-    console.log("Pop returns the number from the Model.gameState");
-    console.log("The UI gets updated and renders");
+  if (control === "undo") {
     console.log("unselect the number which was selected to the row");
-  } else if (button.dataset.control === "submit") {
+    if (guessedCode.length < 1) return;
+    guessedCode.pop();
+
+  } else if (control === "submit") {
     console.log("submit is pressed");
-    console.log(
-      "(Game Engine) Compare the code (1234) (Model) and return status flags"
-    );
-    console.log("Render the status to the UI, provide visual feedback");
+    let occurrenceStatus = compareCodes(secretCode, guessedCode);
+    console.log(occurrenceStatus);
+
     console.log("Check if the player has won");
     console.log("Check if the player guessed number wrong");
     console.log("Check if the player has lost");
-  } else {
-    // get the pressed number from dataset selectedNumber
-    //const selectedNumber =
-    console.log("Number is pressed");
-    console.log("Push selected number to guessed code array (Model->gameState)");
-    console.log("Check for code length (Model)(Game Engine)");
-    console.log("Modal alert window (UI)");
-    console.log(
-      "OPTIONAL Replace the number in the last position OR no feedback"
-    );
-    console.log("OR Render the number to be displayed to the UI");
-  }
-  // check if control submit is pressed
-  // fall through to handle numbers
 
-  // insert into turn row
-  // OR
-  // undo the number in turn row
-  // OR
-  // submit the combination
+  } else {
+    // get the pressed/selected number from dataset selectedNumber
+    console.log("Number is pressed");
+    selectedNumber = parseInt(selectedNumber);
+    console.log(selectedNumber);
+    if (guessedCode.length < NUM_OF_NUMBERS) {
+      guessedCode.push(selectedNumber);
+      console.log(guessedCode);
+    } else {
+      console.log("Modal alert window (UI)");
+    }
+  }
+
+  console.log("UI renders the view");
 };
 
 // compare codes
