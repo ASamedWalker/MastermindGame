@@ -21,71 +21,87 @@ import ControlView from "./views/ControlView.js";
 
 // initialize game
 const startGame = async () => {
-  // initialize guessed code to empty array
   model.gameState.guessedCode = [];
-
-  // set first try to 0
   model.gameState.currentTurn = 0;
 
-  // set start time ? optional
-  // get secret code, need to store into variable
+  // set start time
+
   let secretCode = await codeMaker.fetchRandomNumbers();
 
-  // set secret code in model
   model.setSecretCode(secretCode);
 
-  // delegate to view to create a board
-  UI.renderBoard();
+  console.log(secretCode);
 
-  // delegate to view to update the existing turn/try
-  UI.updateTurn(model.gameState.currentTurn);
+  initializeUI();
 
-  // delegate to controls view to create undo/submit controls
-  UI.renderControls();
-
-  // add event listener to controls, pass in click handler function
-  UI.addEventsToControls(clickHandler);
-
-  // update the high scores ? optional
+  // update the high scores
 };
 
-// create new game
 startGame();
 // ---------------------------------------------------------------------------------------
 
+const initializeUI = () => {
+  UI.renderBoard();
+  UI.updateTurn(model.gameState.currentTurn);
+  UI.renderControls();
+  UI.addEventsToControls(clickHandler);
+};
+
 const clickHandler = (button) => {
-  const {secretCode, guessedCode} = model.gameState;
-  let {control, selectedNumber} = button.dataset;
+  console.log("LOG HERE");
+  const { secretCode, guessedCode } = model.gameState;
+  let { control, selectedNumber } = button.dataset;
+
+  if (control === "submit") {
+    console.log("submit is pressed");
+    let occurrenceStatus = compareCodes(secretCode, guessedCode);
+    console.log(occurrenceStatus);
+
+    console.log("UI renders the view, render the occurrence status");
+    // delegated to game engine updateGame()
+    updateGame(occurrenceStatus);
+    // UI update
+
+    return;
+  }
 
   // check if control undo is pressed
   if (control === "undo") {
     console.log("unselect the number which was selected to the row");
     if (guessedCode.length < 1) return;
     guessedCode.pop();
-
-  } else if (control === "submit") {
-    console.log("submit is pressed");
-    let occurrenceStatus = compareCodes(secretCode, guessedCode);
-    console.log(occurrenceStatus);
-
-    console.log("Check if the player has won");
-    console.log("Check if the player guessed number wrong");
-    console.log("Check if the player has lost");
-
-  } else {
-    // get the pressed/selected number from dataset selectedNumber
-    console.log("Number is pressed");
-    selectedNumber = parseInt(selectedNumber);
-    console.log(selectedNumber);
-    if (guessedCode.length < NUM_OF_NUMBERS) {
-      guessedCode.push(selectedNumber);
-      console.log(guessedCode);
-    } else {
-      console.log("Modal alert window (UI)");
-    }
+    console.log("UI renders the view");
+    return;
   }
 
+  // get the pressed/selected number from dataset selectedNumber
+  console.log("Number is pressed");
+  selectedNumber = parseInt(selectedNumber);
+  console.log(selectedNumber);
+  if (guessedCode.length < NUM_OF_NUMBERS) {
+    guessedCode.push(selectedNumber);
+    console.log(guessedCode);
+  } else {
+    console.log("Modal alert window (UI)");
+  }
   console.log("UI renders the view");
+};
+
+// update game
+const updateGame = (occurrenceStatus) => {
+  const { guessedCode, secretCode } = model.gameState;
+  if (guessedCode.toString() === secretCode.toString()) {
+    // console.log(
+    //   "showing input box for user name, save player data with user name, UI"
+    // );
+    UI.showAlertForWinningCondition();
+
+    console.log("update highscore table, Logic");
+    console.log("show alert window for winning, UI");
+  }
+
+  console.log("Check if the player guessed number wrong");
+  console.log("Check if the player has lost");
 };
 
 // compare codes
@@ -108,42 +124,3 @@ const compareCodes = (secretCode, guessedCode) => {
     changedPlaceCount,
   };
 };
-
-// const randomNumbers = await codeMaker.fetchRandomNumbers();
-// console.log(randomNumbers);
-
-// model.setSecretCode(randomNumbers);
-// console.log(model.gameState);
-
-// model.gameState.numOfTries = 0;
-// let hasWon = false;
-
-// // game loop
-// while (hasWon === false && model.gameState.numOfTries < MAX_TRIES) {
-
-//   //let guess = readInput();
-//   let guess = 1234;
-//   const guessedNumbers = guess.split('').map(item => {
-//     return parseInt(item, 10);
-//   });
-
-//   const occurrences = compareCodes(model.gameState.secretCode, guessedNumbers);
-//   console.log(occurrences);
-
-//   if (occurrences.inPlaceCount === NUM_OF_NUMBERS) {
-//     console.log('WON! You guessed it');
-//     hasWon = true;
-//   } else if (occurrences.inPlaceCount === 0 && occurrences.changedPlaceCount === 0) {
-//     console.log("No occurrences");
-//   } else {
-//     console.log('In place: ' + occurrences.inPlaceCount);
-//     console.log('Changed place: ' + occurrences.changedPlaceCount);
-//   }
-
-//   model.incrementNumOfTries();
-//   console.log(model.gameState.numOfTries, hasWon);
-// }
-
-// if (model.gameState.numOfTries === MAX_TRIES) {
-//   console.log('GAME OVER');
-// }
