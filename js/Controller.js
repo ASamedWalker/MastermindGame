@@ -26,6 +26,7 @@ const startGame = async () => {
   // set start time
 
   let secretCode = await codeMaker.fetchRandomNumbers();
+  console.log(secretCode);
 
   model.setSecretCode(secretCode);
 
@@ -99,7 +100,6 @@ const updateGame = () => {
   } else if (model.gameState.currentTurn === MAX_TRIES) {
     console.log("Check if the player has lost");
     UI.showAlertForLosingCondition(secretCode);
-
   } else {
     model.incrementTurn();
     model.resetGuessedCode();
@@ -108,12 +108,12 @@ const updateGame = () => {
 };
 
 const hasGuessedSecretCode = (guessedCode, secretCode) => {
-  guessedCode.toString() === secretCode.toString();
+  return guessedCode.join("") === secretCode.join("");
 };
 
 const hasLost = (currentTurn) => {
   return currentTurn === MAX_TRIES;
-}
+};
 
 // compare codes
 const compareCodes = (secretCode, guessedCode) => {

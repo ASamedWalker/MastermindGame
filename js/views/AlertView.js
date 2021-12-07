@@ -18,7 +18,7 @@ class AlertView {
       </form>
     `;
     this.#element.insertAdjacentHTML("afterbegin", html);
-
+    this.addEventToSubmitButton(this.toggleAlert);
     this.toggleAlert();
   }
 
@@ -36,8 +36,20 @@ class AlertView {
 
     html += "</div>";
     this.#element.insertAdjacentHTML("afterbegin", html);
-
+    this.addEventToCloseButton(this.toggleAlert);
     this.toggleAlert();
+  }
+
+  addEventToCloseButton(clickHandler) {
+    this.#element
+      .querySelector(".btn-close-alert")
+      .addEventListener("click", clickHandler.bind(this));
+  }
+
+  addEventToSubmitButton(clickHandler) {
+    this.#element
+    .querySelector('.btn-submit-highscore')
+    .addEventListener("click", clickHandler.bind(this));
   }
 
   showAlertOnInvalidInput() {
@@ -46,7 +58,7 @@ class AlertView {
     // render HTML
     const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${NUM_OF_NUMBERS}!</p>`;
     this.#element.insertAdjacentHTML("afterbegin", html);
-
+    this.addEventToCloseButton(this.toggleAlert);
     this.toggleAlert();
   }
 
