@@ -111,6 +111,10 @@ const hasGuessedSecretCode = (guessedCode, secretCode) => {
   guessedCode.toString() === secretCode.toString();
 };
 
+const hasLost = (currentTurn) => {
+  return currentTurn === MAX_TRIES;
+}
+
 // compare codes
 const compareCodes = (secretCode, guessedCode) => {
   let inPlaceCount = 0;
