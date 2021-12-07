@@ -1,3 +1,5 @@
+import { NUM_OF_NUMBERS, MAX_TRIES } from "../config.js";
+import { default as boardView } from "./BoardView.js";
 class AlertView {
   #element = document.querySelector(".alert-view");
   #overlay = document.querySelector(".overlay");
@@ -17,7 +19,34 @@ class AlertView {
     `;
     this.#element.insertAdjacentHTML("afterbegin", html);
 
-    // toggle alert
+    this.toggleAlert();
+  }
+
+  showAlertForLosingCondition(secretCode) {
+    this.#element.innerHTML = "";
+    let html = `
+      <button class="btn-close-alert">X</button>
+      <p class="message">Sorry! You didn't break the code!</p>
+      <p class="message">Secret code was:</p>
+      <div class="secret-container">`;
+
+    for (let i = 0; i < NUM_OF_NUMBERS; i++) {
+      html += `<div class="choice choice-number"><span class="number">${secretCode[i]}</span></div>`;
+    }
+
+    html += "</div>";
+    this.#element.insertAdjacentHTML("afterbegin", html);
+
+    this.toggleAlert();
+  }
+
+  showAlertOnInvalidInput() {
+    this.#element.innerHTML = "";
+
+    // render HTML
+    const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${NUM_OF_NUMBERS}!</p>`;
+    this.#element.insertAdjacentHTML("afterbegin", html);
+
     this.toggleAlert();
   }
 
@@ -28,4 +57,4 @@ class AlertView {
   }
 }
 
-export default new AlertView();
+export default new AlertView(boardView);

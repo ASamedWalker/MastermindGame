@@ -1,7 +1,7 @@
 "use strict";
 
 import { default as codeMaker } from "./CodeMaker.js";
-import { NUM_OF_NUMBERS, MAX_TRIES } from "./Config.js";
+import { NUM_OF_NUMBERS, MAX_TRIES } from "./config.js";
 import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
 
@@ -21,15 +21,13 @@ import { default as UI } from "./UI.js";
 // initialize game
 const startGame = async () => {
   model.gameState.guessedCode = [];
-  model.gameState.currentTurn = 0;
+  model.gameState.currentTurn = 1;
 
   // set start time
 
   let secretCode = await codeMaker.fetchRandomNumbers();
 
   model.setSecretCode(secretCode);
-
-  console.log(secretCode);
 
   initializeUI();
 
@@ -51,6 +49,11 @@ const clickHandler = (button) => {
   let { control, selectedNumber } = button.dataset;
 
   if (control === "submit") {
+    if (guessedCode.length !== NUM_OF_NUMBERS) {
+      UI.showAlertOnInvalidInput();
+      return;
+    }
+
     updateGame();
 
     // UI update
@@ -74,16 +77,11 @@ const clickHandler = (button) => {
   }
 
   // get the pressed/selected number from dataset selectedNumber
-  console.log("Number is pressed");
   selectedNumber = parseInt(selectedNumber);
-  console.log(selectedNumber);
   if (guessedCode.length < NUM_OF_NUMBERS) {
     guessedCode.push(selectedNumber);
-    console.log(guessedCode);
-  } else {
-    console.log("Modal alert window (UI)");
   }
-  console.log("UI renders the view");
+
   UI.renderCodeCombination(currentTurn, guessedCode);
 };
 
@@ -94,23 +92,30 @@ const updateGame = () => {
   const occurrenceStatus = compareCodes(secretCode, guessedCode);
   model.gameState.occurrenceStatus = occurrenceStatus;
 
-  if (guessedCode.toString() === secretCode.toString()) {
+  if (hasGuessedSecretCode(guessedCode, secretCode)) {
     UI.showAlertForWinningCondition();
 
     console.log("update highscore table, Logic");
-  } else if (1 === 1) {
-    model.incrementTurn();
-    console.log("Check if the player guessed number wrong");
-  } else {
+  } else if (model.gameState.currentTurn === MAX_TRIES) {
     console.log("Check if the player has lost");
-    UI.showAlertForLosingCondition();
+    UI.showAlertForLosingCondition(secretCode);
+
+  } else {
+    model.incrementTurn();
+    model.resetGuessedCode();
+    console.log("Check if the player guessed number wrong");
   }
+};
+
+const hasGuessedSecretCode = (guessedCode, secretCode) => {
+  guessedCode.toString() === secretCode.toString();
 };
 
 // compare codes
 const compareCodes = (secretCode, guessedCode) => {
   let inPlaceCount = 0;
   let changedPlaceCount = 0;
+  let wrongCount = 0;
 
   for (let i = 0; i < guessedCode.length; i++) {
     // compare digit from guessed code with one from secret code
@@ -119,11 +124,10 @@ const compareCodes = (secretCode, guessedCode) => {
       inPlaceCount++;
     } else if (index !== -1 && i !== index) {
       changedPlaceCount++;
+    } else {
+      wrongCount++;
     }
   }
 
-  return {
-    inPlaceCount,
-    changedPlaceCount,
-  };
+  return { inPlaceCount, changedPlaceCount, wrongCount };
 };

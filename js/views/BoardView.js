@@ -13,12 +13,12 @@ class BoardView {
     //endloop
     for (let i = 0; i < MAX_TRIES; i++) {
       const html = `
-            <div class="game-try" data-turn="${i}">
+            <div class="game-try" data-turn="${i + 1}">
                 <div class="choice-row">
                     ${this.getHTMLForChoices()}
                 </div>
 
-                <div class="occurrence-status-row" data-turn="${i}">
+                <div class="occurrence-status-row" data-turn="${i + 1}">
                     ${this.getHTMLForOccurrenceStatusFlags()}
                 </div>
             </div>

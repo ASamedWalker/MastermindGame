@@ -58,9 +58,17 @@ class UI {
     );
   }
 
+  showAlertOnInvalidInput() {
+    this.#alertView.showAlertOnInvalidInput();
+  }
+
   // show alert for winning condition
   showAlertForWinningCondition() {
     this.#alertView.showAlertForWinningCondition();
+  }
+
+  showAlertForLosingCondition(secretCode) {
+    this.#alertView.showAlertForLosingCondition(secretCode);
   }
 }
 export default new UI(
