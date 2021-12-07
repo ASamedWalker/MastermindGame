@@ -1,11 +1,11 @@
 import { MAX_NUMBER, MIN_NUMBER } from "../Config.js";
 
-class ControlView {
+class ButtonPanelView{
   #element = document.querySelector(".number-picker-view");
 
   // add events to controls
   // ---------------------------------
-  addEventsToControls(clickHandler) {
+  addEventsToButtonPanel(clickHandler) {
     const buttons = this.#element.querySelectorAll('button');
 
     for (let button of buttons) {
@@ -13,7 +13,7 @@ class ControlView {
     }
   }
 
-  renderControls() {
+  renderButtonPanel() {
     this.#element.innerHTML = '';
 
     let html = '';
@@ -43,4 +43,4 @@ class ControlView {
   }
 }
 
-export default new ControlView();
+export default new ButtonPanelView();

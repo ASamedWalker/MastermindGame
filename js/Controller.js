@@ -4,7 +4,6 @@ import { default as codeMaker } from "./CodeMaker.js";
 import { NUM_OF_NUMBERS, MAX_TRIES } from "./Config.js";
 import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
-import ControlView from "./views/ControlView.js";
 
 // In game loop (real time)
 //    handleUserInput()
@@ -43,34 +42,34 @@ startGame();
 const initializeUI = () => {
   UI.renderBoard();
   UI.updateTurn(model.gameState.currentTurn);
-  UI.renderControls();
-  UI.addEventsToControls(clickHandler);
+  UI.renderButtonPanel();
+  UI.addEventsToButtonPanel(clickHandler);
 };
 
 const clickHandler = (button) => {
-  console.log("LOG HERE");
-  const { secretCode, guessedCode } = model.gameState;
+  const { secretCode, guessedCode, currentTurn } = model.gameState;
   let { control, selectedNumber } = button.dataset;
 
   if (control === "submit") {
-    console.log("submit is pressed");
-    let occurrenceStatus = compareCodes(secretCode, guessedCode);
-    console.log(occurrenceStatus);
+    updateGame();
 
-    console.log("UI renders the view, render the occurrence status");
-    // delegated to game engine updateGame()
-    updateGame(occurrenceStatus);
     // UI update
+    UI.renderOccurrenceStatus(
+      model.gameState.currentTurn,
+      model.gameState.occurrenceStatus
+    );
+
+    UI.updateTurn(model.gameState.currentTurn);
 
     return;
   }
 
   // check if control undo is pressed
   if (control === "undo") {
-    console.log("unselect the number which was selected to the row");
     if (guessedCode.length < 1) return;
     guessedCode.pop();
-    console.log("UI renders the view");
+    UI.renderCodeCombination(currentTurn, guessedCode);
+
     return;
   }
 
@@ -85,23 +84,27 @@ const clickHandler = (button) => {
     console.log("Modal alert window (UI)");
   }
   console.log("UI renders the view");
+  UI.renderCodeCombination(currentTurn, guessedCode);
 };
 
 // update game
-const updateGame = (occurrenceStatus) => {
+const updateGame = () => {
   const { guessedCode, secretCode } = model.gameState;
+
+  const occurrenceStatus = compareCodes(secretCode, guessedCode);
+  model.gameState.occurrenceStatus = occurrenceStatus;
+
   if (guessedCode.toString() === secretCode.toString()) {
-    // console.log(
-    //   "showing input box for user name, save player data with user name, UI"
-    // );
     UI.showAlertForWinningCondition();
 
     console.log("update highscore table, Logic");
-    console.log("show alert window for winning, UI");
+  } else if (1 === 1) {
+    model.incrementTurn();
+    console.log("Check if the player guessed number wrong");
+  } else {
+    console.log("Check if the player has lost");
+    UI.showAlertForLosingCondition();
   }
-
-  console.log("Check if the player guessed number wrong");
-  console.log("Check if the player has lost");
 };
 
 // compare codes

@@ -18,7 +18,7 @@ class BoardView {
                     ${this.getHTMLForChoices()}
                 </div>
 
-                <div class="occurrence-status-row">
+                <div class="occurrence-status-row" data-turn="${i}">
                     ${this.getHTMLForOccurrenceStatusFlags()}
                 </div>
             </div>

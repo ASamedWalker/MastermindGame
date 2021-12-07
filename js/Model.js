@@ -1,7 +1,8 @@
-export const gameState = {
+export let gameState = {
     secretCode: [],
     guessedCode: [],
     currentTurn: 0,
+    occurrenceStatus: {}
 }
 
 export const setSecretCode = function(randomNumbers) {

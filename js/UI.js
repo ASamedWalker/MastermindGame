@@ -1,18 +1,31 @@
 import { default as boardView } from "./views/BoardView.js";
 import { default as turnView } from "./views/TurnView.js";
-import { default as controlView } from "./views/ControlView.js";
+import { default as buttonPanelView } from "./views/ButtonPanelView.js";
+import { default as codeCombinationView } from "./views/CodeCombinationView.js";
+import { default as occurrenceStatusView } from "./views/OccurrenceStatusView.js";
 import { default as alertView } from "./views/AlertView.js";
 
 class UI {
   #boardView = null;
   #turnView = null;
-  #controlView = null;
+  #buttonPanelView = null;
+  #codeCombinationView = null;
+  #occurrenceStatusView = null;
   #alertView = null;
 
-  constructor(boardView, turnView, controlView, alertView) {
+  constructor(
+    boardView,
+    turnView,
+    buttonPanelView,
+    codeCombinationView,
+    occurrenceStatusView,
+    alertView
+  ) {
     this.#boardView = boardView;
     this.#turnView = turnView;
-    this.#controlView = controlView;
+    this.#buttonPanelView = buttonPanelView;
+    this.#codeCombinationView = codeCombinationView;
+    this.#occurrenceStatusView = occurrenceStatusView;
     this.#alertView = alertView;
   }
 
@@ -25,13 +38,24 @@ class UI {
   }
 
   // render controls
-  renderControls() {
-    this.#controlView.renderControls();
+  renderButtonPanel() {
+    this.#buttonPanelView.renderButtonPanel();
   }
 
   // add events to controls
-  addEventsToControls(clickHandler) {
-    this.#controlView.addEventsToControls(clickHandler);
+  addEventsToButtonPanel(clickHandler) {
+    this.#buttonPanelView.addEventsToButtonPanel(clickHandler);
+  }
+
+  renderCodeCombination(currentTurn, guessedCode) {
+    this.#codeCombinationView.renderCodeCombination(currentTurn, guessedCode);
+  }
+
+  renderOccurrenceStatus(currentTurn, occurrenceStatus) {
+    this.#occurrenceStatusView.renderOccurrenceStatus(
+      currentTurn,
+      occurrenceStatus
+    );
   }
 
   // show alert for winning condition
@@ -39,4 +63,11 @@ class UI {
     this.#alertView.showAlertForWinningCondition();
   }
 }
-export default new UI(boardView, turnView, controlView, alertView);
+export default new UI(
+  boardView,
+  turnView,
+  buttonPanelView,
+  codeCombinationView,
+  occurrenceStatusView,
+  alertView
+);
