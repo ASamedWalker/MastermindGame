@@ -4,6 +4,8 @@ import { default as codeMaker } from "./CodeMaker.js";
 import { NUM_OF_NUMBERS, MAX_TRIES } from "./config.js";
 import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
+import { default as sound } from "./Sound.js";
+import {default as highscoreService} from "./service/HighscoreService.js";
 
 // In game loop (real time)
 //    handleUserInput()
@@ -22,6 +24,7 @@ import { default as UI } from "./UI.js";
 const startGame = async () => {
   model.gameState.guessedCode = [];
   model.gameState.currentTurn = 1;
+  model.gameState.startTime = new Date();
 
   // set start time
 
@@ -31,8 +34,6 @@ const startGame = async () => {
   model.setSecretCode(secretCode);
 
   initializeUI();
-
-  // update the high scores
 };
 
 startGame();
@@ -40,6 +41,7 @@ startGame();
 
 const initializeUI = () => {
   UI.renderBoard();
+  UI.renderHighscores(model.getHighscores(  ));
   UI.updateTurn(model.gameState.currentTurn);
   UI.renderButtonPanel();
   UI.addEventsToButtonPanel(clickHandler);
@@ -86,6 +88,17 @@ const clickHandler = (button) => {
   UI.renderCodeCombination(currentTurn, guessedCode);
 };
 
+const submitScore = (playerName) => {
+  const duration = model.gameState.duration;
+  const currentTurn = model.gameState.currentTurn;
+  highscoreService.addScore({
+    'playerName': playerName,
+    'numOfTries': currentTurn,
+    'duration': duration
+  });
+  UI.renderHighscores(model.getHighscores());
+}
+
 // update game
 const updateGame = () => {
   const { guessedCode, secretCode } = model.gameState;
@@ -94,16 +107,14 @@ const updateGame = () => {
   model.gameState.occurrenceStatus = occurrenceStatus;
 
   if (hasGuessedSecretCode(guessedCode, secretCode)) {
+    model.gameState.duration = new Date() - model.gameState.startTime;
     UI.showAlertForWinningCondition();
-
-    console.log("update highscore table, Logic");
+    UI.addEventToSubmitButton(submitScore);
   } else if (model.gameState.currentTurn === MAX_TRIES) {
-    console.log("Check if the player has lost");
     UI.showAlertForLosingCondition(secretCode);
   } else {
     model.incrementTurn();
     model.resetGuessedCode();
-    console.log("Check if the player guessed number wrong");
   }
 };
 

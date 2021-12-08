@@ -3,6 +3,7 @@ import { default as turnView } from "./views/TurnView.js";
 import { default as buttonPanelView } from "./views/ButtonPanelView.js";
 import { default as codeCombinationView } from "./views/CodeCombinationView.js";
 import { default as occurrenceStatusView } from "./views/OccurrenceStatusView.js";
+import { default as highscoreView } from "./views/HighscoreView.js";
 import { default as alertView } from "./views/AlertView.js";
 
 class UI {
@@ -11,6 +12,7 @@ class UI {
   #buttonPanelView = null;
   #codeCombinationView = null;
   #occurrenceStatusView = null;
+  #highscoreView = null;
   #alertView = null;
 
   constructor(
@@ -19,6 +21,7 @@ class UI {
     buttonPanelView,
     codeCombinationView,
     occurrenceStatusView,
+    highscoreView,
     alertView
   ) {
     this.#boardView = boardView;
@@ -26,6 +29,7 @@ class UI {
     this.#buttonPanelView = buttonPanelView;
     this.#codeCombinationView = codeCombinationView;
     this.#occurrenceStatusView = occurrenceStatusView;
+    this.#highscoreView = highscoreView;
     this.#alertView = alertView;
   }
 
@@ -47,6 +51,11 @@ class UI {
     this.#buttonPanelView.addEventsToButtonPanel(clickHandler);
   }
 
+  // add events to submit button
+  addEventToSubmitButton(clickHandler) {
+    this.#alertView.addEventToSubmitButton(clickHandler);
+  }
+
   renderCodeCombination(currentTurn, guessedCode) {
     this.#codeCombinationView.renderCodeCombination(currentTurn, guessedCode);
   }
@@ -57,6 +66,10 @@ class UI {
       occurrenceStatus
     );
   }
+
+  renderHighscores(highscores) {
+    this.#highscoreView.renderHighscores(highscores);
+  } 
 
   showAlertOnInvalidInput() {
     this.#alertView.showAlertOnInvalidInput();
@@ -77,5 +90,6 @@ export default new UI(
   buttonPanelView,
   codeCombinationView,
   occurrenceStatusView,
+  highscoreView,
   alertView
 );

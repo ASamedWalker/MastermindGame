@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <audio id="music"
+        src="./assets/music.mp3">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
     <div class="main-wrapper">
       <header class="header-section">
         <h1 class="header-title">Mastermind</h1>
@@ -18,53 +23,7 @@
 
       <div class="number-picker-view"></div>
 
-      <div class="high-score-display">
-        <h2>High Scores <span class="game-mode">Normal</span></h2>
-        <ul class="high-score-container">
-          <li class="high-score-item">
-            <span>1</span>
-            <span class="high-score-username">Test 1</span>
-            <span class="high-score-moves">5 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>2</span>
-            <span class="high-score-username">Test 2</span>
-            <span class="high-score-moves">3 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>3</span>
-            <span class="high-score-username">Test 3</span>
-            <span class="high-score-moves">4 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>4</span>
-            <span class="high-score-username">Test 4</span>
-            <span class="high-score-moves">8 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>5</span>
-            <span class="high-score-username">Test 5</span>
-            <span class="high-score-moves">5 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>6</span>
-            <span class="high-score-username">Test 6</span>
-            <span class="high-score-moves">8 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-          <li class="high-score-item">
-            <span>7</span>
-            <span class="high-score-username">Test 7</span>
-            <span class="high-score-moves">5 moves</span>
-            <span class="high-score-time">Time</span>
-          </li>
-        </ul>
-      </div>
+      <div class="high-score-display"></div>
 
       <div class="new-game">
         <form class="game-options">

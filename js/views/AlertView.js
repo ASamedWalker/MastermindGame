@@ -11,14 +11,12 @@ class AlertView {
     // render HTML
     const html = `
       <p class="message">You broke the secret code!</p>
-      <form>
-        <label for="name">Input your name:</label>
-        <input type="text" id="name" name="name" />
-        <button class="btn-submit-highscore">Submit</button>
-      </form>
+      <label for="name">Input your name:</label>
+      <input type="text" id="playerName" />
+      <button class="btn-submit-highscore">Submit</button>
     `;
     this.#element.insertAdjacentHTML("afterbegin", html);
-    this.addEventToSubmitButton(this.toggleAlert);
+
     this.toggleAlert();
   }
 
@@ -37,6 +35,7 @@ class AlertView {
     html += "</div>";
     this.#element.insertAdjacentHTML("afterbegin", html);
     this.addEventToCloseButton(this.toggleAlert);
+
     this.toggleAlert();
   }
 
@@ -49,7 +48,11 @@ class AlertView {
   addEventToSubmitButton(clickHandler) {
     this.#element
     .querySelector('.btn-submit-highscore')
-    .addEventListener("click", clickHandler.bind(this));
+    .addEventListener("click", () => {
+      const playerName = document.getElementById("playerName").value;
+      this.toggleAlert();
+      clickHandler(playerName);
+    });
   }
 
   showAlertOnInvalidInput() {
@@ -59,6 +62,7 @@ class AlertView {
     const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${NUM_OF_NUMBERS}!</p>`;
     this.#element.insertAdjacentHTML("afterbegin", html);
     this.addEventToCloseButton(this.toggleAlert);
+
     this.toggleAlert();
   }
 

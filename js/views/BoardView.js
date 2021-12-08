@@ -11,14 +11,14 @@ class BoardView {
     //  html for occurrence flags
     //  add HTML to the DOM
     //endloop
-    for (let i = 0; i < MAX_TRIES; i++) {
+    for (let i = 1; i <= MAX_TRIES; i++) {
       const html = `
-            <div class="game-try" data-turn="${i + 1}">
+            <div class="game-try" data-turn="${i}">
                 <div class="choice-row">
                     ${this.getHTMLForChoices()}
                 </div>
 
-                <div class="occurrence-status-row" data-turn="${i + 1}">
+                <div class="occurrence-status-row" data-turn="${i}">
                     ${this.getHTMLForOccurrenceStatusFlags()}
                 </div>
             </div>

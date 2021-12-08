@@ -10,7 +10,7 @@ class OccurrenceStatusView {
   renderOccurrenceStatus(currentTurn, occurrenceStatus) {
     const colorFlags = this.#getColorFlags(occurrenceStatus);
     const element = document.querySelector(
-      `.game-try [data-turn="${currentTurn - 1}"]`
+      `.game-try [data-turn="${currentTurn}"]`
     );
     console.log(element);
     for (let i = 0; i < NUM_OF_NUMBERS; i++) {
