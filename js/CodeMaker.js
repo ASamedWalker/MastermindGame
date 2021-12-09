@@ -8,12 +8,16 @@ class CodeMaker {
     });
 
     const result = await response.text();
-    const randomSequence = result.split("\n").slice(0, CODE_LENGTH);
-    const randomNumbers = randomSequence.map((item) => {
-      return parseInt(item, 10);
-    });
+    const randomNumbers = result.split("\n").slice(0, CODE_LENGTH);
+    if (randomNumbers.length > 0) {
+      return randomNumbers;
+    }
 
-    return randomNumbers;
+    return this.generateRandomNumbers();
+  }
+
+  #generateRandomNumbers() {
+    return ['0', '1', '2', '3'];
   }
 }
 export default new CodeMaker();

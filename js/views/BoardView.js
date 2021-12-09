@@ -5,12 +5,8 @@ class BoardView {
 
   // render a board
   renderBoard() {
-    //-----------------------------------------
-    //loop through max number of tries
-    //  html for number sequence
-    //  html for occurrence flags
-    //  add HTML to the DOM
-    //endloop
+    this.#element.innerHTML = '';
+
     for (let i = 1; i <= MAX_TRIES; i++) {
       const html = `
             <div class="game-try" data-turn="${i}">

@@ -35,6 +35,10 @@ export const getCurrentTurn = () => {
   return gameState.currentTurn;
 };
 
+export const setCurrentTurn = (currentTurn) => {
+  gameState.currentTurn = currentTurn;
+};
+
 export const resetGuessedCode = () => {
   gameState.guessedCode = [];
 };

@@ -24,9 +24,11 @@ import { default as highscoreService } from "./service/HighscoreService.js";
 // ---------------------------------------------------------------------------------------
 const initModel = async () => {
   model.resetGuessedCode();
+  model.setCurrentTurn(1);
   model.initializeTime();
 
   let secretCode = await codeMaker.fetchRandomNumbers();
+  console.log(secretCode);
   model.setSecretCode(secretCode);
 };
 
@@ -39,7 +41,7 @@ const initUI = () => {
 
 // Handlers/Callbacks for events
 //-----------------------------------------------------
-const submitScoreHandler = (playerName) => {
+const onSubmitScore = (playerName) => {
   UI.toggleAlert();
 
   highscoreService.addScore({
@@ -49,9 +51,10 @@ const submitScoreHandler = (playerName) => {
   });
 
   UI.renderHighscores(model.getHighscores());
+  startGame();
 };
 
-const clickHandler = (button) => {
+const onInput = (button) => {
   const { secretCode, guessedCode, currentTurn } = model.gameState;
   let { control, selectedNumber } = button.dataset;
 
@@ -64,35 +67,42 @@ const clickHandler = (button) => {
   }
 };
 
-const closeButtonHandler = () => {
+const onClose = () => {
   UI.toggleAlert();
 };
+
+const onGameOver = () => {
+  UI.toggleAlert();
+  startGame();
+}
 
 const handleSubmit = () => {
   if (model.getGuessedCode().length !== CODE_LENGTH) {
     UI.showAlertOnInvalidInput();
-    eventListener.addEventListenerToCloseButton(closeButtonHandler);
+    eventListener.addEventListenerToCloseButton(onClose);
     return;
   }
 
-  updateGameLogic();
+  updateOccurrenceStatus();
 
   UI.renderOccurrenceStatus(
     model.getCurrentTurn(),
     model.getOccurrenceStatus()
   );
+
+  updateGameLogic();
+  
   UI.updateTurn(model.getCurrentTurn());
 };
 
 const handleUndo = () => {
   if (model.getGuessedCode().length < 1) return;
 
-  const newCode = model.getGuessedCode().pop();
-  UI.renderCodeCombination(model.getCurrentTurn(), newCode);
+  model.getGuessedCode().pop();
+  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode());
 };
 
 const handleSelectedNumber = (selectedNumber) => {
-  selectedNumber = parseInt(selectedNumber);
   if (model.getGuessedCode().length < CODE_LENGTH) {
     model.getGuessedCode().push(selectedNumber);
   }
@@ -105,24 +115,26 @@ const handleSelectedNumber = (selectedNumber) => {
 const startGame = () => {
   initModel();
   initUI();
-  eventListener.addEventListenersToPanelButtons(clickHandler);
+  eventListener.addEventListenersToPanelButtons(onInput);
 };
 
 startGame();
 
-const updateGameLogic = () => {
-  const { guessedCode, secretCode } = model.gameState;
-
-  const occurrenceStatus = compareCodes(secretCode, guessedCode);
+const updateOccurrenceStatus = () => {
+  const occurrenceStatus = compareCodes(model.getSecretCode(), model.getGuessedCode());
   model.setOccurrenceStatus(occurrenceStatus);
+}
+
+// won/lost/continue
+const updateGameLogic = () => {
 
   if (hasGuessedSecretCode()) {
     UI.showAlertForWinningCondition();
-    eventListener.addEventToSubmitButton(submitScoreHandler);
+    eventListener.addEventToSubmitButton(onSubmitScore);
 
   } else if (hasLost()) {
-    UI.showAlertForLosingCondition(secretCode);
-    eventListener.addEventListenerToCloseButton(closeButtonHandler);
+    UI.showAlertForLosingCondition(model.getSecretCode());
+    eventListener.addEventListenerToCloseButton(onGameOver);
   
   } else {
     model.incrementTurn();
@@ -131,6 +143,7 @@ const updateGameLogic = () => {
 };
 
 const hasGuessedSecretCode = () => {
+  console.log(model.getGuessedCode(), model.getSecretCode());
   return model.getGuessedCode().join("") === model.getSecretCode().join("");
 };
 

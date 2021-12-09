@@ -17,6 +17,7 @@ class OccurrenceStatusView {
   }
 
   renderOccurrenceStatus(currentTurn, occurrenceStatus) {
+    console.log(occurrenceStatus);
     const colorFlags = this.#getColorFlags(occurrenceStatus);
     const element = document.querySelector(
       `.game-try [data-turn="${currentTurn}"]`
