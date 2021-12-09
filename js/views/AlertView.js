@@ -1,5 +1,4 @@
-import { NUM_OF_NUMBERS, MAX_TRIES } from "../config.js";
-import { default as boardView } from "./BoardView.js";
+import { CODE_LENGTH, MAX_TRIES } from "../config.js";
 class AlertView {
   #element = document.querySelector(".alert-view");
   #overlay = document.querySelector(".overlay");
@@ -28,40 +27,22 @@ class AlertView {
       <p class="message">Secret code was:</p>
       <div class="secret-container">`;
 
-    for (let i = 0; i < NUM_OF_NUMBERS; i++) {
+    for (let i = 0; i < CODE_LENGTH; i++) {
       html += `<div class="choice choice-number"><span class="number">${secretCode[i]}</span></div>`;
     }
 
     html += "</div>";
     this.#element.insertAdjacentHTML("afterbegin", html);
-    this.addEventToCloseButton(this.toggleAlert);
 
     this.toggleAlert();
-  }
-
-  addEventToCloseButton(clickHandler) {
-    this.#element
-      .querySelector(".btn-close-alert")
-      .addEventListener("click", clickHandler.bind(this));
-  }
-
-  addEventToSubmitButton(clickHandler) {
-    this.#element
-    .querySelector('.btn-submit-highscore')
-    .addEventListener("click", () => {
-      const playerName = document.getElementById("playerName").value;
-      this.toggleAlert();
-      clickHandler(playerName);
-    });
   }
 
   showAlertOnInvalidInput() {
     this.#element.innerHTML = "";
 
     // render HTML
-    const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${NUM_OF_NUMBERS}!</p>`;
+    const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${CODE_LENGTH}!</p>`;
     this.#element.insertAdjacentHTML("afterbegin", html);
-    this.addEventToCloseButton(this.toggleAlert);
 
     this.toggleAlert();
   }
@@ -73,4 +54,4 @@ class AlertView {
   }
 }
 
-export default new AlertView(boardView);
+export default new AlertView();

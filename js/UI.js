@@ -47,8 +47,8 @@ class UI {
   }
 
   // add events to controls
-  addEventsToButtonPanel(clickHandler) {
-    this.#buttonPanelView.addEventsToButtonPanel(clickHandler);
+  addEventListenersToPanelButtons(clickHandler) {
+    this.#buttonPanelView.addEventListenersToPanelButtons(clickHandler);
   }
 
   // add events to submit button
@@ -69,7 +69,7 @@ class UI {
 
   renderHighscores(highscores) {
     this.#highscoreView.renderHighscores(highscores);
-  } 
+  }
 
   showAlertOnInvalidInput() {
     this.#alertView.showAlertOnInvalidInput();
@@ -82,6 +82,10 @@ class UI {
 
   showAlertForLosingCondition(secretCode) {
     this.#alertView.showAlertForLosingCondition(secretCode);
+  }
+
+  toggleAlert() {
+    this.#alertView.toggleAlert();
   }
 }
 export default new UI(

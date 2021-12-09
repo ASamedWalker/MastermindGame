@@ -1,6 +1,15 @@
-import { NUM_OF_NUMBERS } from "../config.js";
+import { CODE_LENGTH } from "../config.js";
 class OccurrenceStatusView {
   #getColorFlags(occurrenceStatus) {
+    /*
+    {inPlaceCount: 1, changedPlaceCount: 2, wrongCount: 1}
+    "red white white black "
+    "red white white black".split(" ");
+    [0] = red
+    [1] = white
+    [2] = white
+    [3] = black
+    */
     const red = "red ".repeat(occurrenceStatus.inPlaceCount);
     const white = "white ".repeat(occurrenceStatus.changedPlaceCount);
     const black = "black ".repeat(occurrenceStatus.wrongCount);
@@ -12,12 +21,12 @@ class OccurrenceStatusView {
     const element = document.querySelector(
       `.game-try [data-turn="${currentTurn}"]`
     );
-    console.log(element);
-    for (let i = 0; i < NUM_OF_NUMBERS; i++) {
-      let statusElement = element.querySelector(
+
+    for (let i = 0; i < CODE_LENGTH; i++) {
+      const statusElement = element.querySelector(
         `[data-occurrence-status="${i}"]`
       );
-      console.log(statusElement);
+
       statusElement.style.backgroundColor = colorFlags[i];
     }
   }

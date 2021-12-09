@@ -1,11 +1,12 @@
 "use strict";
 
 import { default as codeMaker } from "./CodeMaker.js";
-import { NUM_OF_NUMBERS, MAX_TRIES } from "./config.js";
+import { CODE_LENGTH, MAX_TRIES } from "./config.js";
 import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
+import { default as eventListener } from "./EventListener.js";
 import { default as sound } from "./Sound.js";
-import {default as highscoreService} from "./service/HighscoreService.js";
+import { default as highscoreService } from "./service/HighscoreService.js";
 
 // In game loop (real time)
 //    handleUserInput()
@@ -20,31 +21,34 @@ import {default as highscoreService} from "./service/HighscoreService.js";
 //    Fetches from DB the data, maps to model
 //    Returned data pass to the template, render the data
 
-// initialize game
-const startGame = async () => {
-  model.gameState.guessedCode = [];
-  model.gameState.currentTurn = 1;
-  model.gameState.startTime = new Date();
-
-  // set start time
+// ---------------------------------------------------------------------------------------
+const initModel = async () => {
+  model.resetGuessedCode();
+  model.initializeTime();
 
   let secretCode = await codeMaker.fetchRandomNumbers();
-  console.log(secretCode);
-
   model.setSecretCode(secretCode);
-
-  initializeUI();
 };
 
-startGame();
-// ---------------------------------------------------------------------------------------
-
-const initializeUI = () => {
+const initUI = () => {
   UI.renderBoard();
-  UI.renderHighscores(model.getHighscores(  ));
-  UI.updateTurn(model.gameState.currentTurn);
+  UI.updateTurn(model.getCurrentTurn());
   UI.renderButtonPanel();
-  UI.addEventsToButtonPanel(clickHandler);
+  UI.renderHighscores(model.getHighscores());
+};
+
+// Handlers/Callbacks for events
+//-----------------------------------------------------
+const submitScoreHandler = (playerName) => {
+  UI.toggleAlert();
+
+  highscoreService.addScore({
+    playerName: playerName,
+    numOfTries: model.getCurrentTurn(),
+    duration: model.calcDuration(),
+  });
+
+  UI.renderHighscores(model.getHighscores());
 };
 
 const clickHandler = (button) => {
@@ -52,81 +56,88 @@ const clickHandler = (button) => {
   let { control, selectedNumber } = button.dataset;
 
   if (control === "submit") {
-    if (guessedCode.length !== NUM_OF_NUMBERS) {
-      UI.showAlertOnInvalidInput();
-      return;
-    }
-
-    updateGame();
-
-    // UI update
-    UI.renderOccurrenceStatus(
-      model.gameState.currentTurn,
-      model.gameState.occurrenceStatus
-    );
-
-    UI.updateTurn(model.gameState.currentTurn);
-
-    return;
+    handleSubmit();
+  } else if (control === "undo") {
+    handleUndo();
+  } else {
+    handleSelectedNumber(selectedNumber);
   }
-
-  // check if control undo is pressed
-  if (control === "undo") {
-    if (guessedCode.length < 1) return;
-    guessedCode.pop();
-    UI.renderCodeCombination(currentTurn, guessedCode);
-
-    return;
-  }
-
-  // get the pressed/selected number from dataset selectedNumber
-  selectedNumber = parseInt(selectedNumber);
-  if (guessedCode.length < NUM_OF_NUMBERS) {
-    guessedCode.push(selectedNumber);
-  }
-
-  UI.renderCodeCombination(currentTurn, guessedCode);
 };
 
-const submitScore = (playerName) => {
-  const duration = model.gameState.duration;
-  const currentTurn = model.gameState.currentTurn;
-  highscoreService.addScore({
-    'playerName': playerName,
-    'numOfTries': currentTurn,
-    'duration': duration
-  });
-  UI.renderHighscores(model.getHighscores());
-}
+const closeButtonHandler = () => {
+  UI.toggleAlert();
+};
 
-// update game
-const updateGame = () => {
+const handleSubmit = () => {
+  if (model.getGuessedCode().length !== CODE_LENGTH) {
+    UI.showAlertOnInvalidInput();
+    eventListener.addEventListenerToCloseButton(closeButtonHandler);
+    return;
+  }
+
+  updateGameLogic();
+
+  UI.renderOccurrenceStatus(
+    model.getCurrentTurn(),
+    model.getOccurrenceStatus()
+  );
+  UI.updateTurn(model.getCurrentTurn());
+};
+
+const handleUndo = () => {
+  if (model.getGuessedCode().length < 1) return;
+
+  const newCode = model.getGuessedCode().pop();
+  UI.renderCodeCombination(model.getCurrentTurn(), newCode);
+};
+
+const handleSelectedNumber = (selectedNumber) => {
+  selectedNumber = parseInt(selectedNumber);
+  if (model.getGuessedCode().length < CODE_LENGTH) {
+    model.getGuessedCode().push(selectedNumber);
+  }
+
+  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode());
+};
+//-----------------------------------------------------
+
+// initialize game
+const startGame = () => {
+  initModel();
+  initUI();
+  eventListener.addEventListenersToPanelButtons(clickHandler);
+};
+
+startGame();
+
+const updateGameLogic = () => {
   const { guessedCode, secretCode } = model.gameState;
 
   const occurrenceStatus = compareCodes(secretCode, guessedCode);
-  model.gameState.occurrenceStatus = occurrenceStatus;
+  model.setOccurrenceStatus(occurrenceStatus);
 
-  if (hasGuessedSecretCode(guessedCode, secretCode)) {
-    model.gameState.duration = new Date() - model.gameState.startTime;
+  if (hasGuessedSecretCode()) {
     UI.showAlertForWinningCondition();
-    UI.addEventToSubmitButton(submitScore);
-  } else if (model.gameState.currentTurn === MAX_TRIES) {
+    eventListener.addEventToSubmitButton(submitScoreHandler);
+
+  } else if (hasLost()) {
     UI.showAlertForLosingCondition(secretCode);
+    eventListener.addEventListenerToCloseButton(closeButtonHandler);
+  
   } else {
     model.incrementTurn();
     model.resetGuessedCode();
   }
 };
 
-const hasGuessedSecretCode = (guessedCode, secretCode) => {
-  return guessedCode.join("") === secretCode.join("");
+const hasGuessedSecretCode = () => {
+  return model.getGuessedCode().join("") === model.getSecretCode().join("");
 };
 
-const hasLost = (currentTurn) => {
-  return currentTurn === MAX_TRIES;
+const hasLost = () => {
+  return model.getCurrentTurn() === MAX_TRIES;
 };
 
-// compare codes
 const compareCodes = (secretCode, guessedCode) => {
   let inPlaceCount = 0;
   let changedPlaceCount = 0;

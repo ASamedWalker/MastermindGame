@@ -1,4 +1,4 @@
-import { MAX_TRIES, NUM_OF_NUMBERS } from "../Config.js";
+import { MAX_TRIES, CODE_LENGTH } from "../Config.js";
 
 class BoardView {
   #element = document.querySelector(".game-board-view");
@@ -31,7 +31,7 @@ class BoardView {
   //-------------------------------------------------------------
   getHTMLForChoices() {
     let html = "";
-    for (let i = 0; i < NUM_OF_NUMBERS; i++) {
+    for (let i = 0; i < CODE_LENGTH; i++) {
       html += `<div class="choice choice-number" data-choice="${i}"><span class="number"></span></div>`;
     }
     return html;
@@ -41,7 +41,7 @@ class BoardView {
   //-------------------------------------------------------------
   getHTMLForOccurrenceStatusFlags() {
     let html = "";
-    for (let i = 0; i < NUM_OF_NUMBERS; i++) {
+    for (let i = 0; i < CODE_LENGTH; i++) {
       html += `<div class="choice occurrence-status-flag" data-occurrence-status="${i}"></div>`;
     }
     return html;
