@@ -1,4 +1,5 @@
 export let gameState = {
+  difficulty: null,
   secretCode: [],
   guessedCode: [],
   currentTurn: 1,
@@ -6,6 +7,14 @@ export let gameState = {
   startTime: null,
   occurrenceStatus: {},
 };
+
+export const setDifficulty = (difficulty) => {
+  gameState.difficulty = difficulty;
+}
+
+export const getDifficulty = () => {
+  return gameState.difficulty;
+}
 
 export const setSecretCode = (randomNumbers) => {
   gameState.secretCode = randomNumbers;

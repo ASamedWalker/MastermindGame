@@ -1,20 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
 
 :root {
-  --peg-blue: #1ecbe1;
-  --peg-green: #15ea48;
-  --peg-yellow: #e1ec13;
   --peg-red: #f1200e;
-  --peg-orange: #fa6805;
-  --peg-purple: #ee11a4;
-  --peg-brown: #6d2e09;
   --peg-black: #373338;
   --flag-white: #ddd7fc;
   --flag-red: #f2080b;
+  --color-blue: #23a6d5;
 }
 
 html {
-  font-family: "Outfit, sans-serif";
+  font-family: "Outfit", sans-serif;
   font-size: 16px;
   box-sizing: border-box;
 }
@@ -25,6 +20,11 @@ body {
   animation: gradient 15s ease infinite;
   height: 100vh;
   width: 100%;
+}
+
+h1 {
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 @keyframes gradient {
@@ -41,18 +41,22 @@ body {
 
 /*Main container - wrapper*/
 .main-wrapper {
-  height: 75%;
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  grid-template-rows: 1fr 5fr 1fr;
+  padding: 1.6rem;
+  height: 750px;
+  width: 430px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid white;
+  border-radius: 7px;
 }
 
-/*Header*/
-.header-section {
-  /*Grid-area*/
-  /*row-start/column-start/row-end/column-end:*/
-  grid-area: 1 / 1 / 2 / 2;
+.wrapper {
+  position: relative;
+}
+
+.game-wrapper {
+  display: none;
 }
 
 .header-title {
@@ -61,15 +65,40 @@ body {
   text-align: center;
 }
 
-/* New game options*/
-.new-game {
-  grid-area: 1 / 2 / 2 / 3;
+.game-menu {
   display: flex;
-  justify-content: center;
+  margin: 20px 0;
+  flex-direction: column;
+  align-content: center;
 }
 
-.difficulty,
+/* New game options*/
+.game-options {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  row-gap: 0.5rem;
+}
+
+.game-difficulty {
+  display: flex;
+}
+
+.game-rules, .credits, .high-score-display {
+  width: 90%;
+  height: 100%;
+  margin: 3rem;
+}
+
+.game-rules p, .credits p {
+  margin: 1rem 0;
+  line-height: 1.3rem;
+}
+
 .btn-new-game {
+  width: 170px;
+  height: 50px;
   border: none;
   font-size: 1rem;
   padding: 0.3rem 0.5rem;
@@ -79,17 +108,9 @@ body {
   cursor: pointer;
 }
 
-.difficulty:hover,
 .btn-new-game:hover {
   color: var(--peg-black);
   background-color: var(--flag-white);
-}
-
-/*Highscores*/
-.high-score-display {
-  grid-area: 2 / 2 / 3 / 3;
-  margin: 0 auto;
-  min-width: 25rem;
 }
 
 .high-score-display h2 {
@@ -103,28 +124,28 @@ body {
 
 /*NUMBER PICKER*/
 .number-picker-view {
-  grid-area: 3 / 1 / 4 / 2;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 20px 0;
 }
 
 .choice {
-  height: 2.2rem;
-  width: 2.2rem;
+  height: 2rem;
+  width: 2rem;
   border: 2px solid var(--peg-black);
   border-radius: 2rem;
   margin: 0 0.15rem;
 }
 
 .choice-btn {
-  height: 2.2rem;
-  width: 2.2rem;
+  height: 1.8rem;
+  width: 1.8rem;
   border: 2px solid var(--peg-black);
+  border-radius: 2.5rem;
   margin: 0 0.15rem;
   background-color: var(--peg-purple);
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   font-weight: 800;
   cursor: pointer;
   display: inline-flex;
@@ -132,10 +153,11 @@ body {
 
 /*contol btns*/
 .control-btn {
+  height: 20px;
+  width: 100px;
   color: var(--flag-white);
-  background-color: var(--peg-orange);
-  font-size: 1.2rem;
-  font-weight: 800;
+  background-color: var(--color-blue);
+  font-size: 0.9rem;
   display: inline-flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -145,17 +167,10 @@ body {
   margin-left: 0.5rem;
 }
 
-/*Game board-display*/
-.game-board-view {
-  grid-area: 2 / 1 / 3 / 2;
-  margin: 0 auto;
-}
-
 .game-try {
   min-width: 15rem;
   min-height: 2.8rem;
   margin: 0.5rem;
-  padding: 0.5rem;
   border-radius: 0.3rem;
   display: flex;
   justify-content: space-around;
@@ -178,7 +193,7 @@ body {
 }
 
 .current-turn {
-  background: linear-gradient(30deg, var(--peg-brown), var(--flag-white));
+  background: linear-gradient(30deg, var(--color-blue), var(--flag-white));
 }
 
 .played-turn {
@@ -216,7 +231,7 @@ body {
   left: 0;
   height: 100vh;
   width: 100%;
-  background-color: #373338d7;
+  background-color: #373338;
   filter: blur(10rem);
   z-index: 5;
 }
@@ -232,8 +247,8 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10;
   min-width: 25rem;
-  height: 15rem;
-  background-color: var(--peg-brown);
+  min-height: 7rem;
+  background-color: var(--color-blue);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -306,9 +321,8 @@ label {
     width: 90%;
     padding: 0;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 5fr 1fr 5fr;
+    border: 1px solid gray;
+    border-radius: 5px;
   }
 
   .header-section,
@@ -316,27 +330,5 @@ label {
   .game-board-view,
   .number-picker-view {
     padding-bottom: 1rem;
-  }
-
-  .header-section {
-    grid-area: 1 / 1 / 1 / 2;
-  }
-
-  .new-game {
-    grid-area: 2 / 1 / 3 / 2;
-  }
-
-  .game-board-view {
-    grid-area: 3 / 1 / 4 / 2;
-  }
-
-  .number-picker-view {
-    grid-area: 4 / 1 / 5 / 2;
-    flex-wrap: wrap;
-  }
-
-  .high-score-display {
-    grid-area: 5 / 1 / 6 / 2;
-    min-width: 15rem;
   }
 }

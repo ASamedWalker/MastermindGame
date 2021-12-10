@@ -1,12 +1,16 @@
 "use strict";
 
 import { default as codeMaker } from "./CodeMaker.js";
-import { CODE_LENGTH, MAX_TRIES } from "./config.js";
+import { MAX_TRIES, GAME_DIFFICULTY } from "./config.js";
 import * as model from "./Model.js";
 import { default as UI } from "./UI.js";
-import { default as eventListener } from "./EventListener.js";
-import { default as sound } from "./Sound.js";
+import { default as eventListener } from "./EventListener.js";;
 import { default as highscoreService } from "./service/HighscoreService.js";
+
+// color codes (config)
+// translation (config)
+// sound effects (service)
+// hover effects on buttons (CSS)
 
 // In game loop (real time)
 //    handleUserInput()
@@ -22,28 +26,40 @@ import { default as highscoreService } from "./service/HighscoreService.js";
 //    Returned data pass to the template, render the data
 
 // ---------------------------------------------------------------------------------------
-const initModel = async () => {
+const initModel = async (difficulty) => {
+  model.setDifficulty(difficulty);
   model.resetGuessedCode();
   model.setCurrentTurn(1);
   model.initializeTime();
 
-  let secretCode = await codeMaker.fetchRandomNumbers();
-  console.log(secretCode);
+  let secretCode = await codeMaker.fetchRandomNumbers(difficulty);
   model.setSecretCode(secretCode);
 };
 
 const initUI = () => {
-  UI.renderBoard();
+  UI.renderBoard(model.getDifficulty());
   UI.updateTurn(model.getCurrentTurn());
-  UI.renderButtonPanel();
-  UI.renderHighscores(model.getHighscores());
+  UI.renderButtonPanel(model.getDifficulty());
+  UI.displayGame();
 };
 
 // Handlers/Callbacks for events
 //-----------------------------------------------------
-const onSubmitScore = (playerName) => {
+const onClose = () => {
   UI.toggleAlert();
+};
 
+const onViewHighscores = () => {
+  UI.toggleAlert();
+  startGame(model.getDifficulty());
+}
+
+const onGameOver = () => {
+  UI.toggleAlert();
+  startGame(model.getDifficulty());
+}
+
+const onSubmitScore = (playerName) => {
   highscoreService.addScore({
     playerName: playerName,
     numOfTries: model.getCurrentTurn(),
@@ -51,7 +67,7 @@ const onSubmitScore = (playerName) => {
   });
 
   UI.renderHighscores(model.getHighscores());
-  startGame();
+  eventListener.addEventListenerToCloseButton(onViewHighscores);
 };
 
 const onInput = (button) => {
@@ -67,27 +83,40 @@ const onInput = (button) => {
   }
 };
 
-const onClose = () => {
-  UI.toggleAlert();
-};
+const onNewGame = (difficulty) => {
+  startGame(difficulty);
+}
 
-const onGameOver = () => {
-  UI.toggleAlert();
-  startGame();
+const onMenuInput = (button) => {  
+  let { menuItem } = button.dataset;
+
+  if (menuItem === "display-rules") {
+    UI.showModalForGameRules();
+    eventListener.addEventListenerToCloseButton(onClose)
+
+  } else if (menuItem === "display-about") {
+    UI.showModalForCredits();
+    eventListener.addEventListenerToCloseButton(onClose)
+
+  } else if (menuItem === "display-highscores") {
+    UI.showModalForHighscores(model.getHighscores());
+  }
 }
 
 const handleSubmit = () => {
-  if (model.getGuessedCode().length !== CODE_LENGTH) {
-    UI.showAlertOnInvalidInput();
+  if (model.getGuessedCode().length !== GAME_DIFFICULTY[model.getDifficulty()].codeLength) {
+    UI.showAlertOnInvalidInput(model.getDifficulty());
     eventListener.addEventListenerToCloseButton(onClose);
     return;
   }
 
-  updateOccurrenceStatus();
+  const occurrenceStatus = compareCodes(model.getSecretCode(), model.getGuessedCode());
+  model.setOccurrenceStatus(occurrenceStatus);
 
   UI.renderOccurrenceStatus(
     model.getCurrentTurn(),
-    model.getOccurrenceStatus()
+    model.getOccurrenceStatus(),
+    model.getDifficulty()
   );
 
   updateGameLogic();
@@ -99,31 +128,27 @@ const handleUndo = () => {
   if (model.getGuessedCode().length < 1) return;
 
   model.getGuessedCode().pop();
-  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode());
+  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode(), model.getDifficulty());
 };
 
 const handleSelectedNumber = (selectedNumber) => {
-  if (model.getGuessedCode().length < CODE_LENGTH) {
+  if (model.getGuessedCode().length < GAME_DIFFICULTY[model.getDifficulty()].codeLength) {
     model.getGuessedCode().push(selectedNumber);
   }
 
-  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode());
+  UI.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode(), model.getDifficulty());
 };
 //-----------------------------------------------------
 
 // initialize game
-const startGame = () => {
-  initModel();
+const startGame = (difficulty) => {
+  initModel(difficulty);
   initUI();
   eventListener.addEventListenersToPanelButtons(onInput);
 };
 
-startGame();
-
-const updateOccurrenceStatus = () => {
-  const occurrenceStatus = compareCodes(model.getSecretCode(), model.getGuessedCode());
-  model.setOccurrenceStatus(occurrenceStatus);
-}
+eventListener.addEventListenerForNewGame(onNewGame);
+eventListener.addEventListenersToMenuButtons(onMenuInput);
 
 // won/lost/continue
 const updateGameLogic = () => {
@@ -133,7 +158,7 @@ const updateGameLogic = () => {
     eventListener.addEventToSubmitButton(onSubmitScore);
 
   } else if (hasLost()) {
-    UI.showAlertForLosingCondition(model.getSecretCode());
+    UI.showAlertForLosingCondition(model.getSecretCode(), model.getDifficulty());
     eventListener.addEventListenerToCloseButton(onGameOver);
   
   } else {
@@ -143,7 +168,6 @@ const updateGameLogic = () => {
 };
 
 const hasGuessedSecretCode = () => {
-  console.log(model.getGuessedCode(), model.getSecretCode());
   return model.getGuessedCode().join("") === model.getSecretCode().join("");
 };
 
@@ -157,7 +181,6 @@ const compareCodes = (secretCode, guessedCode) => {
   let wrongCount = 0;
 
   for (let i = 0; i < guessedCode.length; i++) {
-    // compare digit from guessed code with one from secret code
     const index = secretCode.indexOf(guessedCode[i]);
     if (guessedCode[i] === secretCode[i]) {
       inPlaceCount++;

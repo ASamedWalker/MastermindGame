@@ -4,30 +4,43 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mastermind</title>
+    <title>Mastermind Game</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <audio id="music" src="./assets/music.mp3">
-      Your browser does not support the
-      <code>audio</code> element.
-    </audio>
     <div class="main-wrapper">
       <header class="header-section">
         <h1 class="header-title">Mastermind</h1>
       </header>
 
-      <div class="game-board-view"></div>
+      <div class="wrapper">
+        <div class="game-menu">
+          <div class="game-options">
+            <button class="btn-new-game" data-menu-item="new-game">New Game</button>
+            <button class="btn-new-game" data-menu-item="display-rules">Read game rules</button>
+            <button class="btn-new-game" data-menu-item="display-about">About</button>
+            <button class="btn-new-game" data-menu-item="display-highscores">Highscores</button>
 
-      <div class="number-picker-view"></div>
+            <div>Choose your difficulty</div>
+            <div class="game-difficulty">
+              <input type="radio" name="difficulty" id="easy" value="easy">
+              <label for="easy">Easy</label>
 
-      <div class="high-score-display"></div>
+              <input type="radio" name="difficulty" id="normal" value="normal" checked>
+              <label for="normal">Normal</label>
 
-      <div class="new-game">
-        <form class="game-options">
-          <button class="btn-new-game">New Game</button>
-        </form>
+              <input type="radio" name="difficulty" id="hard" value="hard">
+              <label for="hard">Hard</label>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="game-wrapper">
+          <div class="number-picker-view"></div>
+          <div class="game-board-view"></div>
+        </div>      
       </div>
     </div>
 

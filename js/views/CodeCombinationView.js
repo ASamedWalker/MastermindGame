@@ -1,10 +1,10 @@
-import { MAX_NUMBER, CODE_LENGTH } from "../config.js";
+import { GAME_DIFFICULTY } from "../config.js";
 
 class CodeCombinationView {
-  renderCodeCombination(currentTurn, guessedCode) {
+  renderCodeCombination(currentTurn, guessedCode, difficulty) {
     const element = document.querySelector(`[data-turn="${currentTurn}"]`);
 
-    for (let i = 0; i < CODE_LENGTH; i++) {
+    for (let i = 0; i < GAME_DIFFICULTY[difficulty].codeLength; i++) {
       const numberElement = element.querySelector(`[data-choice="${i}"] span`);
       if (guessedCode[i] !== undefined) {
         numberElement.innerHTML = guessedCode[i];

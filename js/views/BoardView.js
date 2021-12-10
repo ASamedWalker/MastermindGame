@@ -1,21 +1,22 @@
-import { MAX_TRIES, CODE_LENGTH } from "../Config.js";
+import { MAX_TRIES, GAME_DIFFICULTY } from "../Config.js";
 
 class BoardView {
   #element = document.querySelector(".game-board-view");
 
   // render a board
-  renderBoard() {
+  renderBoard(difficulty) {
     this.#element.innerHTML = '';
 
     for (let i = 1; i <= MAX_TRIES; i++) {
       const html = `
             <div class="game-try" data-turn="${i}">
+                <span>Turn ${i}</span>
                 <div class="choice-row">
-                    ${this.getHTMLForChoices()}
+                    ${this.getHTMLForChoices(difficulty)}
                 </div>
 
                 <div class="occurrence-status-row" data-turn="${i}">
-                    ${this.getHTMLForOccurrenceStatusFlags()}
+                    ${this.getHTMLForOccurrenceStatusFlags(difficulty)}
                 </div>
             </div>
             `;
@@ -23,21 +24,17 @@ class BoardView {
     }
   }
 
-  //create and return html for textual or graphic representation of number sequence
-  //-------------------------------------------------------------
-  getHTMLForChoices() {
+  getHTMLForChoices(difficulty) {
     let html = "";
-    for (let i = 0; i < CODE_LENGTH; i++) {
+    for (let i = 0; i < GAME_DIFFICULTY[difficulty].codeLength; i++) {
       html += `<div class="choice choice-number" data-choice="${i}"><span class="number"></span></div>`;
     }
     return html;
   }
 
-  //create and return html for occurrence flags (renders only once the HTML)
-  //-------------------------------------------------------------
-  getHTMLForOccurrenceStatusFlags() {
+  getHTMLForOccurrenceStatusFlags(difficulty) {
     let html = "";
-    for (let i = 0; i < CODE_LENGTH; i++) {
+    for (let i = 0; i < GAME_DIFFICULTY[difficulty].codeLength; i++) {
       html += `<div class="choice occurrence-status-flag" data-occurrence-status="${i}"></div>`;
     }
     return html;

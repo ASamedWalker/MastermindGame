@@ -2,13 +2,15 @@ import {capitalize, formatTime} from '../helpers.js';
 import {MAX_ENTRIES} from '../config.js';
 
 class HighscoreView {
-  #element = document.querySelector('.high-score-display');
+  #element = document.querySelector('.alert-view');
 
   renderHighscores(highscores) {
     this.#element.innerHTML = '';
 
     let html = `
-    <h2>Top ${MAX_ENTRIES} High Scores</h2>
+      <div class="high-score-display">
+      <h1>Top ${MAX_ENTRIES} High Scores</h1>
+      <button class="btn-close-alert">X</button>
       <ul class="high-score-container">
     `;
 
@@ -23,7 +25,7 @@ class HighscoreView {
       `;        
     });
 
-    html += '</ul>';
+    html += '</ul></div>';
 
     this.#element.insertAdjacentHTML('afterbegin', html);
   }

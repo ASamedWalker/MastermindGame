@@ -33,8 +33,15 @@ class UI {
     this.#alertView = alertView;
   }
 
-  renderBoard() {
-    this.#boardView.renderBoard();
+  displayGame() {
+    const wrapper = document.querySelector('.game-wrapper');
+    const menu = document.querySelector('.game-menu');
+    wrapper.style.display = "block";
+    menu.style.display = "none"; 
+  }
+
+  renderBoard(difficulty) {
+    this.#boardView.renderBoard(difficulty);
   }
 
   updateTurn(currentTurn, isActive = true) {
@@ -42,28 +49,19 @@ class UI {
   }
 
   // render controls
-  renderButtonPanel() {
-    this.#buttonPanelView.renderButtonPanel();
+  renderButtonPanel(difficulty) {
+    this.#buttonPanelView.renderButtonPanel(difficulty);
   }
 
-  // add events to controls
-  addEventListenersToPanelButtons(clickHandler) {
-    this.#buttonPanelView.addEventListenersToPanelButtons(clickHandler);
+  renderCodeCombination(currentTurn, guessedCode, difficulty) {
+    this.#codeCombinationView.renderCodeCombination(currentTurn, guessedCode, difficulty);
   }
 
-  // add events to submit button
-  addEventToSubmitButton(clickHandler) {
-    this.#alertView.addEventToSubmitButton(clickHandler);
-  }
-
-  renderCodeCombination(currentTurn, guessedCode) {
-    this.#codeCombinationView.renderCodeCombination(currentTurn, guessedCode);
-  }
-
-  renderOccurrenceStatus(currentTurn, occurrenceStatus) {
+  renderOccurrenceStatus(currentTurn, occurrenceStatus, difficulty) {
     this.#occurrenceStatusView.renderOccurrenceStatus(
       currentTurn,
-      occurrenceStatus
+      occurrenceStatus,
+      difficulty
     );
   }
 
@@ -71,8 +69,8 @@ class UI {
     this.#highscoreView.renderHighscores(highscores);
   }
 
-  showAlertOnInvalidInput() {
-    this.#alertView.showAlertOnInvalidInput();
+  showAlertOnInvalidInput(difficulty) {
+    this.#alertView.showAlertOnInvalidInput(difficulty);
   }
 
   // show alert for winning condition
@@ -80,8 +78,20 @@ class UI {
     this.#alertView.showAlertForWinningCondition();
   }
 
-  showAlertForLosingCondition(secretCode) {
-    this.#alertView.showAlertForLosingCondition(secretCode);
+  showAlertForLosingCondition(secretCode, difficulty) {
+    this.#alertView.showAlertForLosingCondition(secretCode, difficulty);
+  }
+  
+  showModalForGameRules() {
+    this.#alertView.showModalForGameRules();
+  }
+
+  showModalForCredits() {
+    this.#alertView.showModalForCredits();
+  }
+
+  showModalForHighscores(highscores) {
+    this.#alertView.showModalForHighscores(highscores);
   }
 
   toggleAlert() {

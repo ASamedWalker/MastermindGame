@@ -1,4 +1,4 @@
-import { CODE_LENGTH } from "../config.js";
+import { GAME_DIFFICULTY } from "../config.js";
 class OccurrenceStatusView {
   #getColorFlags(occurrenceStatus) {
     /*
@@ -10,20 +10,22 @@ class OccurrenceStatusView {
     [2] = white
     [3] = black
     */
-    const red = "red ".repeat(occurrenceStatus.inPlaceCount);
-    const white = "white ".repeat(occurrenceStatus.changedPlaceCount);
-    const black = "black ".repeat(occurrenceStatus.wrongCount);
+
+    const {inPlaceCount, changedPlaceCount, wrongCount} = occurrenceStatus;
+    const red = "red ".repeat(inPlaceCount);
+    const white = "white ".repeat(changedPlaceCount);
+    const black = "black ".repeat(wrongCount);
     return (red + white + black).trim().split(" ");
   }
 
-  renderOccurrenceStatus(currentTurn, occurrenceStatus) {
+  renderOccurrenceStatus(currentTurn, occurrenceStatus, difficulty) {
     console.log(occurrenceStatus);
     const colorFlags = this.#getColorFlags(occurrenceStatus);
     const element = document.querySelector(
       `.game-try [data-turn="${currentTurn}"]`
     );
 
-    for (let i = 0; i < CODE_LENGTH; i++) {
+    for (let i = 0; i < GAME_DIFFICULTY[difficulty].codeLength; i++) {
       const statusElement = element.querySelector(
         `[data-occurrence-status="${i}"]`
       );
