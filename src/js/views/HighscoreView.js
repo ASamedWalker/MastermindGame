@@ -1,11 +1,11 @@
-import {capitalize, formatTime} from '../helpers.js';
-import {MAX_ENTRIES} from '../config.js';
+import { capitalize, formatTime } from "../helpers.js";
+import { MAX_ENTRIES } from "../config.js";
 
 class HighscoreView {
-  #element = document.querySelector('.alert-view');
+  #element = document.querySelector(".alert-view");
 
   renderHighscores(highscores) {
-    this.#element.innerHTML = '';
+    this.#element.innerHTML = "";
 
     let html = `
       <div class="high-score-display">
@@ -22,12 +22,12 @@ class HighscoreView {
           <span class="high-score-moves">${item.numOfTries} tries</span> 
           <span class="high-score-time">${formatTime(+item.duration)}</span>
         </li>
-      `;        
+      `;
     });
 
-    html += '</ul></div>';
+    html += "</ul></div>";
 
-    this.#element.insertAdjacentHTML('afterbegin', html);
+    this.#element.insertAdjacentHTML("afterbegin", html);
   }
 }
 

@@ -1,13 +1,12 @@
 {
   "name": "mastermindgame",
   "source": "src/index.html",
-  "browserslist": ">0.5%, last 2 versions, not dead",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "1.0.0",
   "description": "1. History of MasterMind Game\r     2. Goals\r     3. Gameplay\r     4. Track Scores",
-  "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url /src/",
+    "build": "parcel build src/index.html --public-url /MastermindGame/",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
@@ -22,7 +21,9 @@
   },
   "homepage": "https://github.com/ASamedWalker/MastermindGame#readme",
   "devDependencies": {
-    "gh-pages": "^3.2.3",
     "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "gh-pages": "^3.2.3"
   }
 }

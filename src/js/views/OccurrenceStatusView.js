@@ -11,7 +11,7 @@ class OccurrenceStatusView {
     [3] = black
     */
 
-    const {inPlaceCount, changedPlaceCount, wrongCount} = occurrenceStatus;
+    const { inPlaceCount, changedPlaceCount, wrongCount } = occurrenceStatus;
     const red = "red ".repeat(inPlaceCount);
     const white = "white ".repeat(changedPlaceCount);
     const black = "black ".repeat(wrongCount);
