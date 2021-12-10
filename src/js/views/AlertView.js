@@ -1,4 +1,4 @@
-import { MAX_TRIES, GAME_DIFFICULTY } from "../config.js.js";
+import { MAX_TRIES, GAME_DIFFICULTY } from "../config.js";
 import { default as highscoreView } from "./HighscoreView.js";
 
 class AlertView {

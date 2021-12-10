@@ -1,5 +1,5 @@
 import {capitalize, formatTime} from '../helpers.js';
-import {MAX_ENTRIES} from '../config.js.js';
+import {MAX_ENTRIES} from '../config.js';
 
 class HighscoreView {
   #element = document.querySelector('.alert-view');

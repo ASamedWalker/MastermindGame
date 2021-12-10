@@ -1,4 +1,4 @@
-import { GAME_DIFFICULTY } from "../config.js.js";
+import { GAME_DIFFICULTY } from "../config.js";
 class OccurrenceStatusView {
   #getColorFlags(occurrenceStatus) {
     /*
