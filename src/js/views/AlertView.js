@@ -53,7 +53,7 @@ class AlertView {
         <button class="btn-close-alert">X</button>
         <h1>Credits</h1>
         <p>
-         About Abdul Samed Walker
+         Hi, my name is Abdul Samed Walker and a passionate software developer. I love to code and thinker with things.
         </p>
       </div>
     `;

@@ -31,7 +31,7 @@ At the start of the game, the player chooses the level of difficulty he/she pref
 - The player had guessed a correct number and its correct location
 - The player’s guess was incorrect.
 
-This response would be substituted with two pegs which represent the color red and white pegs in the game. Each red peg would correspond to the feedback the player had guess a correct number and it’s correct location. Each white peg corresponds to the feedback the player had guessed a correct number. No pegs would correspond to feedback that the player’s guess was incorrect.
+This response would be substituted with three flags which represent the color red and white flags in the game. Each red peg would correspond to the feedback the player had guess a correct number and it’s correct location. Each white peg corresponds to the feedback the player had guessed a correct number. Each black flags would correspond to feedback that the player’s guess was incorrect.
 
 **_NOTE:_** **Order of the white and red pegs does not matter.**
 

@@ -100,6 +100,7 @@ const onMenuInput = (button) => {
 
   } else if (menuItem === "display-highscores") {
     UI.showModalForHighscores(model.getHighscores());
+    eventListener.addEventListenerToCloseButton(onClose)
   }
 }
 
