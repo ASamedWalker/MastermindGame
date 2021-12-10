@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url /",
+    "build": "parcel build src/index.html --public-url /src/",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
