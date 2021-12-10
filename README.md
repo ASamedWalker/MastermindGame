@@ -13,7 +13,7 @@ Mastermind is a difficult puzzle game, in which one player tries to guess the co
 
 ## Goals
 
-The goal of this project is to create a computerized base form of the mastermind game utilizing a programming language called javascript. I implemented javascript’s ES6 classes, ES6 modules, and webpack to bundle modules together. I also implemented Modul, View, and Controller (MVC) design patterns to give structure to my code.
+The goal of this project is to create a computerized base form of the mastermind game utilizing a programming language called javascript. I implemented javascript’s ES6 classes, ES6 modules, and parcel to bundle modules together. I also implemented Modul, View, and Controller (MVC) design patterns to give structure to my code.
 
 ## Gameplay
 
