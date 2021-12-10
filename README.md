@@ -21,9 +21,9 @@ Mastermind is a two-sided code-solving game played by a computer(**codemaker**) 
 
 | Difficulty | Length of code | Random Numbers/ Colors |
 | :--------: | :------------: | :--------------------: |
-|    Easy    |       3        |           4            |
-|   Normal   |       4        |           6            |
-|    Hard    |       5        |           8            |
+|    Easy    |       3        |           5            |
+|   Normal   |       4        |           7            |
+|    Hard    |       5        |           9            |
 
 At the start of the game, the player chooses the level of difficulty he/she prefers. Then the player clicks the new game button. Once the game pops up, the player now has the opportunity to interact with the game by attempting to input a code to break the code set by the codemaker. The codemaker then gives feedback at the end of each attempt made by the codebreaker. The feedback provided by the codemaker would be responses like
 
