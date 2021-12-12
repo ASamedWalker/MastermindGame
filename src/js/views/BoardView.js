@@ -10,7 +10,6 @@ class BoardView {
     for (let i = 1; i <= MAX_TRIES; i++) {
       const html = `
             <div class="game-try" data-turn="${i}">
-                <span>Turn ${i}</span>
                 <div class="choice-row">
                     ${this.getHTMLForChoices(difficulty)}
                 </div>
