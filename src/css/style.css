@@ -54,7 +54,8 @@ h1 {
 .wrapper {
   position: relative;
   font-size: 1.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -99,17 +100,20 @@ h1 {
   display: flex;
 }
 
-.game-rules, .credits, .high-score-display {
+.game-rules,
+.credits,
+.high-score-display {
   width: 90%;
   height: 100%;
   margin: 3rem;
 }
 
-.game-rules p, .credits p {
+.game-rules p,
+.credits p {
   margin: 1rem 0;
   line-height: 1.3rem;
   font-weight: normal;
-  font-family:Arial, Helvetica, sans-serif
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* .btn-new-game {
@@ -129,49 +133,56 @@ h1 {
 .btn-new-game {
   width: 170px;
   height: 50px;
-  background-color:#186294;
-	padding:10px;
+  background-color: #186294;
+  padding: 10px;
   margin-bottom: 1.5rem;
-	position:relative;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 1.5rem;
-	text-decoration:none;
+  position: relative;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5rem;
+  text-decoration: none;
   text-shadow: 1px 1px #373338;
-	color:#fff;
-  background-image: linear-gradient(bottom, rgb(6, 10, 3) 0%, rgb(3, 24, 29) 100%);
-	box-shadow: inset 0px 1px 0px #0d2833, 0px 6px 0px #0c3852;
-	border-radius: 5px;
-
+  color: #fff;
+  background-image: linear-gradient(
+    bottom,
+    rgb(6, 10, 3) 0%,
+    rgb(3, 24, 29) 100%
+  );
+  box-shadow: inset 0px 1px 0px #0d2833, 0px 6px 0px #0c3852;
+  border-radius: 5px;
 }
 
 .btn-new-game:active {
-	top:7px;
-	background-image: linear-gradient(bottom, rgb(100,170,30) 100%, rgb(129,212,51) 0%);
-	box-shadow: inset 0px 1px 0px #b2f17f, inset 0px -1px 0px #3d6f0d;
-	color: #156785;
-	text-shadow: 0px 1px 1px rgba(255,255,255,0.3);
-	background: rgb(44,160,202);
+  top: 7px;
+  background-image: linear-gradient(
+    bottom,
+    rgb(100, 170, 30) 100%,
+    rgb(129, 212, 51) 0%
+  );
+  box-shadow: inset 0px 1px 0px #b2f17f, inset 0px -1px 0px #3d6f0d;
+  color: #156785;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
+  background: rgb(44, 160, 202);
 }
 
 .btn-new-game::before {
-	background-color:#072239;
-	content:"";
-	display:block;
-	position:absolute;
-	width:100%;
-	height:100%;
-	padding-left:2px;
-	padding-right:2px;
-	padding-bottom:4px;
-	left:-2px;
-	top:5px;
-	z-index:-1;
-	border-radius: 6px;
-	box-shadow: 0px 1px 0px #fff;
+  background-color: #072239;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 4px;
+  left: -2px;
+  top: 5px;
+  z-index: -1;
+  border-radius: 6px;
+  box-shadow: 0px 1px 0px #fff;
 }
 
 .a_demo_two:active::before {
-	top:-2px;
+  top: -2px;
 }
 
 .btn-new-game:hover {
