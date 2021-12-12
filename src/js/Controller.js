@@ -7,24 +7,6 @@ import { default as UI } from "./UI.js";
 import { default as eventListener } from "./EventListener.js";;
 import { default as highscoreService } from "./service/HighscoreService.js";
 
-// color codes (config)
-// translation (config)
-// sound effects (service)
-// hover effects on buttons (CSS)
-
-// In game loop (real time)
-//    handleUserInput()
-//    updateGame()
-//    updateAI() is optional
-//    render(data)
-
-// Web HTTP Request
-//    HTTP POST request comes in from HTML form (GET in case with search query in URL, q=game programming)
-//    Routing chooses the controller by the API URL posts/ (routing decides which controller)
-//    Service delegates the use case, all the business rules, to decide whichj data need to fetch
-//    Fetches from DB the data, maps to model
-//    Returned data pass to the template, render the data
-
 // ---------------------------------------------------------------------------------------
 const initModel = async (difficulty) => {
   model.setDifficulty(difficulty);
