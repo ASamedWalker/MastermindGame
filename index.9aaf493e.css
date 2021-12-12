@@ -53,16 +53,30 @@ h1 {
 
 .wrapper {
   position: relative;
+  font-size: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .game-wrapper {
   display: none;
 }
 
+.game-mode {
+  text-decoration: black;
+  text-transform: uppercase;
+  text-shadow: 1px 1px #072239;
+  margin-bottom: 5px;
+}
+
 .header-title {
   color: var(--peg-black);
-  font-size: 3rem;
+  text-shadow: 2px 2px grey;
+  font-size: 3.5rem;
+  font-weight: bold;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .game-menu {
@@ -99,16 +113,66 @@ h1 {
   font-family:Arial, Helvetica, sans-serif
 }
 
-.btn-new-game {
+/* .btn-new-game {
   width: 170px;
   height: 50px;
   border: none;
   font-size: 1rem;
   padding: 0.3rem 0.5rem;
+  margin-bottom: 1.5rem;
   color: var(--flag-white);
   border-radius: 0.3rem;
   background-color: var(--peg-black);
+  box-shadow: 0 0 10px #777777;
   cursor: pointer;
+} */
+
+.btn-new-game {
+  width: 170px;
+  height: 50px;
+  background-color:#186294;
+	padding:10px;
+  margin-bottom: 1.5rem;
+	position:relative;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.5rem;
+	text-decoration:none;
+  text-shadow: 1px 1px #373338;
+	color:#fff;
+  background-image: linear-gradient(bottom, rgb(6, 10, 3) 0%, rgb(3, 24, 29) 100%);
+	box-shadow: inset 0px 1px 0px #0d2833, 0px 6px 0px #0c3852;
+	border-radius: 5px;
+
+}
+
+.btn-new-game:active {
+	top:7px;
+	background-image: linear-gradient(bottom, rgb(100,170,30) 100%, rgb(129,212,51) 0%);
+	box-shadow: inset 0px 1px 0px #b2f17f, inset 0px -1px 0px #3d6f0d;
+	color: #156785;
+	text-shadow: 0px 1px 1px rgba(255,255,255,0.3);
+	background: rgb(44,160,202);
+}
+
+.btn-new-game::before {
+	background-color:#072239;
+	content:"";
+	display:block;
+	position:absolute;
+	width:100%;
+	height:100%;
+	padding-left:2px;
+	padding-right:2px;
+	padding-bottom:4px;
+	left:-2px;
+	top:5px;
+	z-index:-1;
+	border-radius: 6px;
+	box-shadow: 0px 1px 0px #fff;
+}
+
+.a_demo_two:active::before {
+	top:-2px;
 }
 
 .btn-new-game:hover {

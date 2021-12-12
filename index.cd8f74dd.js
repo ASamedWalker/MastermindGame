@@ -459,72 +459,79 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"bbGHz":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _codeMakerJs = require("./CodeMaker.js");
-var _codeMakerJsDefault = parcelHelpers.interopDefault(_codeMakerJs);
-var _configJs = require("./config.js");
-var _modelJs = require("./Model.js");
-var _uiJs = require("./UI.js");
-var _uiJsDefault = parcelHelpers.interopDefault(_uiJs);
-var _eventListenerJs = require("./EventListener.js");
-var _eventListenerJsDefault = parcelHelpers.interopDefault(_eventListenerJs);
-var _highscoreServiceJs = require("./service/HighscoreService.js");
-var _highscoreServiceJsDefault = parcelHelpers.interopDefault(_highscoreServiceJs);
 "use strict";
-// color codes (config)
-// translation (config)
-// sound effects (service)
-// hover effects on buttons (CSS)
-// In game loop (real time)
-//    handleUserInput()
-//    updateGame()
-//    updateAI() is optional
-//    render(data)
-// Web HTTP Request
-//    HTTP POST request comes in from HTML form (GET in case with search query in URL, q=game programming)
-//    Routing chooses the controller by the API URL posts/ (routing decides which controller)
-//    Service delegates the use case, all the business rules, to decide whichj data need to fetch
-//    Fetches from DB the data, maps to model
-//    Returned data pass to the template, render the data
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+var _CodeMaker = _interopRequireDefault(require("./CodeMaker.js"));
+var _config = require("./config.js");
+var model = _interopRequireWildcard(require("./Model.js"));
+var _UI = _interopRequireDefault(require("./UI.js"));
+var _EventListener = _interopRequireDefault(require("./EventListener.js"));
+var _HighscoreService = _interopRequireDefault(require("./service/HighscoreService.js"));
+function _getRequireWildcardCache(nodeInterop1) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop1);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") return {
+        default: obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj.default = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
 // ---------------------------------------------------------------------------------------
 const initModel = async (difficulty)=>{
-    _modelJs.setDifficulty(difficulty);
-    _modelJs.resetGuessedCode();
-    _modelJs.setCurrentTurn(1);
-    _modelJs.initializeTime();
-    let secretCode = await _codeMakerJsDefault.default.fetchRandomNumbers(difficulty);
-    _modelJs.setSecretCode(secretCode);
+    model.setDifficulty(difficulty);
+    model.resetGuessedCode();
+    model.setCurrentTurn(1);
+    model.initializeTime();
+    let secretCode = await _CodeMaker.default.fetchRandomNumbers(difficulty);
+    model.setSecretCode(secretCode);
 };
 const initUI = ()=>{
-    _uiJsDefault.default.renderBoard(_modelJs.getDifficulty());
-    _uiJsDefault.default.updateTurn(_modelJs.getCurrentTurn());
-    _uiJsDefault.default.renderButtonPanel(_modelJs.getDifficulty());
-    _uiJsDefault.default.displayGame();
-};
-// Handlers/Callbacks for events
+    _UI.default.renderBoard(model.getDifficulty());
+    _UI.default.updateTurn(model.getCurrentTurn());
+    _UI.default.renderButtonPanel(model.getDifficulty());
+    _UI.default.displayGame();
+}; // Handlers/Callbacks for events
 //-----------------------------------------------------
 const onClose = ()=>{
-    _uiJsDefault.default.toggleAlert();
+    _UI.default.toggleAlert();
 };
 const onViewHighscores = ()=>{
-    _uiJsDefault.default.toggleAlert();
-    startGame(_modelJs.getDifficulty());
+    _UI.default.toggleAlert();
+    startGame(model.getDifficulty());
 };
 const onGameOver = ()=>{
-    _uiJsDefault.default.toggleAlert();
-    startGame(_modelJs.getDifficulty());
+    _UI.default.toggleAlert();
+    startGame(model.getDifficulty());
 };
 const onSubmitScore = (playerName)=>{
-    _highscoreServiceJsDefault.default.addScore({
+    _HighscoreService.default.addScore({
         playerName: playerName,
-        numOfTries: _modelJs.getCurrentTurn(),
-        duration: _modelJs.calcDuration()
+        numOfTries: model.getCurrentTurn(),
+        duration: model.calcDuration()
     });
-    _uiJsDefault.default.renderHighscores(_modelJs.getHighscores());
-    _eventListenerJsDefault.default.addEventListenerToCloseButton(onViewHighscores);
+    _UI.default.renderHighscores(model.getHighscores());
+    _EventListener.default.addEventListenerToCloseButton(onViewHighscores);
 };
 const onInput = (button)=>{
-    const { secretCode , guessedCode , currentTurn  } = _modelJs.gameState;
+    const { secretCode , guessedCode , currentTurn  } = model.gameState;
     let { control , selectedNumber  } = button.dataset;
     if (control === "submit") handleSubmit();
     else if (control === "undo") handleUndo();
@@ -536,64 +543,62 @@ const onNewGame = (difficulty)=>{
 const onMenuInput = (button)=>{
     let { menuItem  } = button.dataset;
     if (menuItem === "display-rules") {
-        _uiJsDefault.default.showModalForGameRules();
-        _eventListenerJsDefault.default.addEventListenerToCloseButton(onClose);
+        _UI.default.showModalForGameRules();
+        _EventListener.default.addEventListenerToCloseButton(onClose);
     } else if (menuItem === "display-about") {
-        _uiJsDefault.default.showModalForCredits();
-        _eventListenerJsDefault.default.addEventListenerToCloseButton(onClose);
+        _UI.default.showModalForCredits();
+        _EventListener.default.addEventListenerToCloseButton(onClose);
     } else if (menuItem === "display-highscores") {
-        _uiJsDefault.default.showModalForHighscores(_modelJs.getHighscores());
-        _eventListenerJsDefault.default.addEventListenerToCloseButton(onClose);
+        _UI.default.showModalForHighscores(model.getHighscores());
+        _EventListener.default.addEventListenerToCloseButton(onClose);
     }
 };
 const handleSubmit = ()=>{
-    if (_modelJs.getGuessedCode().length !== _configJs.GAME_DIFFICULTY[_modelJs.getDifficulty()].codeLength) {
-        _uiJsDefault.default.showAlertOnInvalidInput(_modelJs.getDifficulty());
-        _eventListenerJsDefault.default.addEventListenerToCloseButton(onClose);
+    if (model.getGuessedCode().length !== _config.GAME_DIFFICULTY[model.getDifficulty()].codeLength) {
+        _UI.default.showAlertOnInvalidInput(model.getDifficulty());
+        _EventListener.default.addEventListenerToCloseButton(onClose);
         return;
     }
-    const occurrenceStatus = compareCodes(_modelJs.getSecretCode(), _modelJs.getGuessedCode());
-    _modelJs.setOccurrenceStatus(occurrenceStatus);
-    _uiJsDefault.default.renderOccurrenceStatus(_modelJs.getCurrentTurn(), _modelJs.getOccurrenceStatus(), _modelJs.getDifficulty());
+    const occurrenceStatus = compareCodes(model.getSecretCode(), model.getGuessedCode());
+    model.setOccurrenceStatus(occurrenceStatus);
+    _UI.default.renderOccurrenceStatus(model.getCurrentTurn(), model.getOccurrenceStatus(), model.getDifficulty());
     updateGameLogic();
-    _uiJsDefault.default.updateTurn(_modelJs.getCurrentTurn());
+    _UI.default.updateTurn(model.getCurrentTurn());
 };
 const handleUndo = ()=>{
-    if (_modelJs.getGuessedCode().length < 1) return;
-    _modelJs.getGuessedCode().pop();
-    _uiJsDefault.default.renderCodeCombination(_modelJs.getCurrentTurn(), _modelJs.getGuessedCode(), _modelJs.getDifficulty());
+    if (model.getGuessedCode().length < 1) return;
+    model.getGuessedCode().pop();
+    _UI.default.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode(), model.getDifficulty());
 };
 const handleSelectedNumber = (selectedNumber)=>{
-    if (_modelJs.getGuessedCode().length < _configJs.GAME_DIFFICULTY[_modelJs.getDifficulty()].codeLength) _modelJs.getGuessedCode().push(selectedNumber);
-    _uiJsDefault.default.renderCodeCombination(_modelJs.getCurrentTurn(), _modelJs.getGuessedCode(), _modelJs.getDifficulty());
-};
-//-----------------------------------------------------
+    if (model.getGuessedCode().length < _config.GAME_DIFFICULTY[model.getDifficulty()].codeLength) model.getGuessedCode().push(selectedNumber);
+    _UI.default.renderCodeCombination(model.getCurrentTurn(), model.getGuessedCode(), model.getDifficulty());
+}; //-----------------------------------------------------
 // initialize game
 const startGame = (difficulty)=>{
     initModel(difficulty);
     initUI();
-    _eventListenerJsDefault.default.addEventListenersToPanelButtons(onInput);
+    _EventListener.default.addEventListenersToPanelButtons(onInput);
 };
-_eventListenerJsDefault.default.addEventListenerForNewGame(onNewGame);
-_eventListenerJsDefault.default.addEventListenersToMenuButtons(onMenuInput);
-// won/lost/continue
+_EventListener.default.addEventListenerForNewGame(onNewGame);
+_EventListener.default.addEventListenersToMenuButtons(onMenuInput); // won/lost/continue
 const updateGameLogic = ()=>{
     if (hasGuessedSecretCode()) {
-        _uiJsDefault.default.showAlertForWinningCondition();
-        _eventListenerJsDefault.default.addEventToSubmitButton(onSubmitScore);
+        _UI.default.showAlertForWinningCondition();
+        _EventListener.default.addEventToSubmitButton(onSubmitScore);
     } else if (hasLost()) {
-        _uiJsDefault.default.showAlertForLosingCondition(_modelJs.getSecretCode(), _modelJs.getDifficulty());
-        _eventListenerJsDefault.default.addEventListenerToCloseButton(onGameOver);
+        _UI.default.showAlertForLosingCondition(model.getSecretCode(), model.getDifficulty());
+        _EventListener.default.addEventListenerToCloseButton(onGameOver);
     } else {
-        _modelJs.incrementTurn();
-        _modelJs.resetGuessedCode();
+        model.incrementTurn();
+        model.resetGuessedCode();
     }
 };
 const hasGuessedSecretCode = ()=>{
-    return _modelJs.getGuessedCode().join("") === _modelJs.getSecretCode().join("");
+    return model.getGuessedCode().join("") === model.getSecretCode().join("");
 };
 const hasLost = ()=>{
-    return _modelJs.getCurrentTurn() === _configJs.MAX_TRIES;
+    return model.getCurrentTurn() === _config.MAX_TRIES;
 };
 const compareCodes = (secretCode, guessedCode)=>{
     let inPlaceCount = 0;
@@ -612,14 +617,28 @@ const compareCodes = (secretCode, guessedCode)=>{
     };
 };
 
-},{"./CodeMaker.js":"lQStd","./config.js":"6V52N","./Model.js":"ejWFH","./UI.js":"lRoR1","./EventListener.js":"1T13D","./service/HighscoreService.js":"iVczu","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"lQStd":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("./Config.js");
+},{"./CodeMaker.js":"lQStd","./config.js":"6V52N","./Model.js":"ejWFH","./UI.js":"lRoR1","./EventListener.js":"1T13D","./service/HighscoreService.js":"iVczu","@babel/runtime/helpers/interopRequireDefault":"bfiIA"}],"lQStd":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _Config = require("./Config.js");
+function _classPrivateMethodInitSpec(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _generateRandomNumbers = /*#__PURE__*/ new WeakSet();
 class CodeMaker {
+    constructor(){
+        _classPrivateMethodInitSpec(this, _generateRandomNumbers);
+    }
     async fetchRandomNumbers(difficulty) {
-        const { codeLength , maxNumber  } = _configJs.GAME_DIFFICULTY[difficulty];
-        const apiUrl = `https://www.random.org/integers/?num=${codeLength}&min=${_configJs.MIN_NUMBER}&max=${maxNumber}&col=1&base=10&format=plain&rnd=new`;
+        const { codeLength , maxNumber  } = _Config.GAME_DIFFICULTY[difficulty];
+        const apiUrl = `https://www.random.org/integers/?num=${codeLength}&min=${_Config.MIN_NUMBER}&max=${maxNumber}&col=1&base=10&format=plain&rnd=new`;
         const response = await fetch(apiUrl, {
             method: "GET"
         });
@@ -628,34 +647,32 @@ class CodeMaker {
         if (randomNumbers.length > 0) return randomNumbers;
         return this.generateRandomNumbers();
     }
-     #generateRandomNumbers() {
-        return [
-            '0',
-            '1',
-            '2',
-            '3'
-        ];
-    }
 }
-exports.default = new CodeMaker();
+function _generateRandomNumbers2() {
+    return [
+        '0',
+        '1',
+        '2',
+        '3'
+    ];
+}
+var _default = new CodeMaker();
+exports.default = _default;
 
-},{"./Config.js":"hEUs6","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"hEUs6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MAX_TRIES", ()=>MAX_TRIES
-);
-parcelHelpers.export(exports, "MIN_NUMBER", ()=>MIN_NUMBER
-);
-parcelHelpers.export(exports, "MAX_ENTRIES", ()=>MAX_ENTRIES
-);
-parcelHelpers.export(exports, "LOCAL_STORAGE_KEY", ()=>LOCAL_STORAGE_KEY
-);
-parcelHelpers.export(exports, "GAME_DIFFICULTY", ()=>GAME_DIFFICULTY
-);
+},{"./Config.js":"hEUs6"}],"hEUs6":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.MIN_NUMBER = exports.MAX_TRIES = exports.MAX_ENTRIES = exports.LOCAL_STORAGE_KEY = exports.GAME_DIFFICULTY = void 0;
 const MAX_TRIES = 10;
+exports.MAX_TRIES = MAX_TRIES;
 const MIN_NUMBER = 0;
+exports.MIN_NUMBER = MIN_NUMBER;
 const MAX_ENTRIES = 10;
+exports.MAX_ENTRIES = MAX_ENTRIES;
 const LOCAL_STORAGE_KEY = 'highscores';
+exports.LOCAL_STORAGE_KEY = LOCAL_STORAGE_KEY;
 const GAME_DIFFICULTY = {
     easy: {
         codeLength: 3,
@@ -670,54 +687,22 @@ const GAME_DIFFICULTY = {
         maxNumber: 9
     }
 };
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
+exports.GAME_DIFFICULTY = GAME_DIFFICULTY;
 
 },{}],"6V52N":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MAX_TRIES", ()=>MAX_TRIES
-);
-parcelHelpers.export(exports, "MIN_NUMBER", ()=>MIN_NUMBER
-);
-parcelHelpers.export(exports, "MAX_ENTRIES", ()=>MAX_ENTRIES
-);
-parcelHelpers.export(exports, "LOCAL_STORAGE_KEY", ()=>LOCAL_STORAGE_KEY
-);
-parcelHelpers.export(exports, "GAME_DIFFICULTY", ()=>GAME_DIFFICULTY
-);
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.MIN_NUMBER = exports.MAX_TRIES = exports.MAX_ENTRIES = exports.LOCAL_STORAGE_KEY = exports.GAME_DIFFICULTY = void 0;
 const MAX_TRIES = 10;
+exports.MAX_TRIES = MAX_TRIES;
 const MIN_NUMBER = 0;
+exports.MIN_NUMBER = MIN_NUMBER;
 const MAX_ENTRIES = 10;
+exports.MAX_ENTRIES = MAX_ENTRIES;
 const LOCAL_STORAGE_KEY = 'highscores';
+exports.LOCAL_STORAGE_KEY = LOCAL_STORAGE_KEY;
 const GAME_DIFFICULTY = {
     easy: {
         codeLength: 3,
@@ -732,42 +717,14 @@ const GAME_DIFFICULTY = {
         maxNumber: 9
     }
 };
+exports.GAME_DIFFICULTY = GAME_DIFFICULTY;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ejWFH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "gameState", ()=>gameState
-);
-parcelHelpers.export(exports, "setDifficulty", ()=>setDifficulty
-);
-parcelHelpers.export(exports, "getDifficulty", ()=>getDifficulty
-);
-parcelHelpers.export(exports, "setSecretCode", ()=>setSecretCode
-);
-parcelHelpers.export(exports, "getSecretCode", ()=>getSecretCode
-);
-parcelHelpers.export(exports, "getGuessedCode", ()=>getGuessedCode
-);
-parcelHelpers.export(exports, "getOccurrenceStatus", ()=>getOccurrenceStatus
-);
-parcelHelpers.export(exports, "setOccurrenceStatus", ()=>setOccurrenceStatus
-);
-parcelHelpers.export(exports, "incrementTurn", ()=>incrementTurn
-);
-parcelHelpers.export(exports, "getCurrentTurn", ()=>getCurrentTurn
-);
-parcelHelpers.export(exports, "setCurrentTurn", ()=>setCurrentTurn
-);
-parcelHelpers.export(exports, "resetGuessedCode", ()=>resetGuessedCode
-);
-parcelHelpers.export(exports, "getHighscores", ()=>getHighscores
-);
-parcelHelpers.export(exports, "setHighscores", ()=>setHighscores
-);
-parcelHelpers.export(exports, "initializeTime", ()=>initializeTime
-);
-parcelHelpers.export(exports, "calcDuration", ()=>calcDuration
-);
+},{}],"ejWFH":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setSecretCode = exports.setOccurrenceStatus = exports.setHighscores = exports.setDifficulty = exports.setCurrentTurn = exports.resetGuessedCode = exports.initializeTime = exports.incrementTurn = exports.getSecretCode = exports.getOccurrenceStatus = exports.getHighscores = exports.getGuessedCode = exports.getDifficulty = exports.getCurrentTurn = exports.gameState = exports.calcDuration = void 0;
 let gameState = {
     difficulty: null,
     secretCode: [],
@@ -778,85 +735,135 @@ let gameState = {
     occurrenceStatus: {
     }
 };
+exports.gameState = gameState;
 const setDifficulty = (difficulty)=>{
     gameState.difficulty = difficulty;
 };
+exports.setDifficulty = setDifficulty;
 const getDifficulty = ()=>{
     return gameState.difficulty;
 };
+exports.getDifficulty = getDifficulty;
 const setSecretCode = (randomNumbers)=>{
     gameState.secretCode = randomNumbers;
 };
+exports.setSecretCode = setSecretCode;
 const getSecretCode = ()=>{
     return gameState.secretCode;
 };
+exports.getSecretCode = getSecretCode;
 const getGuessedCode = ()=>{
     return gameState.guessedCode;
 };
+exports.getGuessedCode = getGuessedCode;
 const getOccurrenceStatus = ()=>{
     return gameState.occurrenceStatus;
 };
+exports.getOccurrenceStatus = getOccurrenceStatus;
 const setOccurrenceStatus = (occurrenceStatus)=>{
     gameState.occurrenceStatus = occurrenceStatus;
 };
+exports.setOccurrenceStatus = setOccurrenceStatus;
 const incrementTurn = ()=>{
     gameState.currentTurn++;
 };
+exports.incrementTurn = incrementTurn;
 const getCurrentTurn = ()=>{
     return gameState.currentTurn;
 };
+exports.getCurrentTurn = getCurrentTurn;
 const setCurrentTurn = (currentTurn)=>{
     gameState.currentTurn = currentTurn;
 };
+exports.setCurrentTurn = setCurrentTurn;
 const resetGuessedCode = ()=>{
     gameState.guessedCode = [];
 };
+exports.resetGuessedCode = resetGuessedCode;
 const getHighscores = ()=>{
     return gameState.highscores;
 };
+exports.getHighscores = getHighscores;
 const setHighscores = (highscores)=>{
     gameState.highscores = highscores;
 };
+exports.setHighscores = setHighscores;
 const initializeTime = ()=>{
     gameState.startTime = new Date();
 };
+exports.initializeTime = initializeTime;
 const calcDuration = ()=>{
     return new Date() - gameState.startTime;
 };
+exports.calcDuration = calcDuration;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"lRoR1":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _boardViewJs = require("./views/BoardView.js");
-var _boardViewJsDefault = parcelHelpers.interopDefault(_boardViewJs);
-var _turnViewJs = require("./views/TurnView.js");
-var _turnViewJsDefault = parcelHelpers.interopDefault(_turnViewJs);
-var _buttonPanelViewJs = require("./views/ButtonPanelView.js");
-var _buttonPanelViewJsDefault = parcelHelpers.interopDefault(_buttonPanelViewJs);
-var _codeCombinationViewJs = require("./views/CodeCombinationView.js");
-var _codeCombinationViewJsDefault = parcelHelpers.interopDefault(_codeCombinationViewJs);
-var _occurrenceStatusViewJs = require("./views/OccurrenceStatusView.js");
-var _occurrenceStatusViewJsDefault = parcelHelpers.interopDefault(_occurrenceStatusViewJs);
-var _highscoreViewJs = require("./views/HighscoreView.js");
-var _highscoreViewJsDefault = parcelHelpers.interopDefault(_highscoreViewJs);
-var _alertViewJs = require("./views/AlertView.js");
-var _alertViewJsDefault = parcelHelpers.interopDefault(_alertViewJs);
+},{}],"lRoR1":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+var _classPrivateFieldSet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldSet"));
+var _BoardView = _interopRequireDefault(require("./views/BoardView.js"));
+var _TurnView = _interopRequireDefault(require("./views/TurnView.js"));
+var _ButtonPanelView = _interopRequireDefault(require("./views/ButtonPanelView.js"));
+var _CodeCombinationView = _interopRequireDefault(require("./views/CodeCombinationView.js"));
+var _OccurrenceStatusView = _interopRequireDefault(require("./views/OccurrenceStatusView.js"));
+var _HighscoreView = _interopRequireDefault(require("./views/HighscoreView.js"));
+var _AlertView = _interopRequireDefault(require("./views/AlertView.js"));
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _boardView = /*#__PURE__*/ new WeakMap();
+var _turnView = /*#__PURE__*/ new WeakMap();
+var _buttonPanelView = /*#__PURE__*/ new WeakMap();
+var _codeCombinationView = /*#__PURE__*/ new WeakMap();
+var _occurrenceStatusView = /*#__PURE__*/ new WeakMap();
+var _highscoreView = /*#__PURE__*/ new WeakMap();
+var _alertView = /*#__PURE__*/ new WeakMap();
 class UI {
-    #boardView = null;
-    #turnView = null;
-    #buttonPanelView = null;
-    #codeCombinationView = null;
-    #occurrenceStatusView = null;
-    #highscoreView = null;
-    #alertView = null;
     constructor(boardView, turnView, buttonPanelView, codeCombinationView, occurrenceStatusView, highscoreView, alertView){
-        this.#boardView = boardView;
-        this.#turnView = turnView;
-        this.#buttonPanelView = buttonPanelView;
-        this.#codeCombinationView = codeCombinationView;
-        this.#occurrenceStatusView = occurrenceStatusView;
-        this.#highscoreView = highscoreView;
-        this.#alertView = alertView;
+        _classPrivateFieldInitSpec(this, _boardView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _turnView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _buttonPanelView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _codeCombinationView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _occurrenceStatusView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _highscoreView, {
+            writable: true,
+            value: null
+        });
+        _classPrivateFieldInitSpec(this, _alertView, {
+            writable: true,
+            value: null
+        });
+        (0, _classPrivateFieldSet2.default)(this, _boardView, boardView);
+        (0, _classPrivateFieldSet2.default)(this, _turnView, turnView);
+        (0, _classPrivateFieldSet2.default)(this, _buttonPanelView, buttonPanelView);
+        (0, _classPrivateFieldSet2.default)(this, _codeCombinationView, codeCombinationView);
+        (0, _classPrivateFieldSet2.default)(this, _occurrenceStatusView, occurrenceStatusView);
+        (0, _classPrivateFieldSet2.default)(this, _highscoreView, highscoreView);
+        (0, _classPrivateFieldSet2.default)(this, _alertView, alertView);
     }
     displayGame() {
         const wrapper = document.querySelector('.game-wrapper');
@@ -865,59 +872,76 @@ class UI {
         menu.style.display = "none";
     }
     renderBoard(difficulty) {
-        this.#boardView.renderBoard(difficulty);
+        (0, _classPrivateFieldGet2.default)(this, _boardView).renderBoard(difficulty);
     }
     updateTurn(currentTurn, isActive = true) {
-        this.#turnView.updateTurn(currentTurn, isActive);
+        (0, _classPrivateFieldGet2.default)(this, _turnView).updateTurn(currentTurn, isActive);
     }
-    // render controls
     renderButtonPanel(difficulty1) {
-        this.#buttonPanelView.renderButtonPanel(difficulty1);
+        (0, _classPrivateFieldGet2.default)(this, _buttonPanelView).renderButtonPanel(difficulty1);
     }
     renderCodeCombination(currentTurn1, guessedCode, difficulty2) {
-        this.#codeCombinationView.renderCodeCombination(currentTurn1, guessedCode, difficulty2);
+        (0, _classPrivateFieldGet2.default)(this, _codeCombinationView).renderCodeCombination(currentTurn1, guessedCode, difficulty2);
     }
     renderOccurrenceStatus(currentTurn2, occurrenceStatus, difficulty3) {
-        this.#occurrenceStatusView.renderOccurrenceStatus(currentTurn2, occurrenceStatus, difficulty3);
+        (0, _classPrivateFieldGet2.default)(this, _occurrenceStatusView).renderOccurrenceStatus(currentTurn2, occurrenceStatus, difficulty3);
     }
     renderHighscores(highscores) {
-        this.#highscoreView.renderHighscores(highscores);
+        (0, _classPrivateFieldGet2.default)(this, _highscoreView).renderHighscores(highscores);
     }
     showAlertOnInvalidInput(difficulty4) {
-        this.#alertView.showAlertOnInvalidInput(difficulty4);
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showAlertOnInvalidInput(difficulty4);
     }
-    // show alert for winning condition
     showAlertForWinningCondition() {
-        this.#alertView.showAlertForWinningCondition();
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showAlertForWinningCondition();
     }
     showAlertForLosingCondition(secretCode, difficulty5) {
-        this.#alertView.showAlertForLosingCondition(secretCode, difficulty5);
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showAlertForLosingCondition(secretCode, difficulty5);
     }
     showModalForGameRules() {
-        this.#alertView.showModalForGameRules();
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showModalForGameRules();
     }
     showModalForCredits() {
-        this.#alertView.showModalForCredits();
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showModalForCredits();
     }
     showModalForHighscores(highscores1) {
-        this.#alertView.showModalForHighscores(highscores1);
+        (0, _classPrivateFieldGet2.default)(this, _alertView).showModalForHighscores(highscores1);
     }
     toggleAlert() {
-        this.#alertView.toggleAlert();
+        (0, _classPrivateFieldGet2.default)(this, _alertView).toggleAlert();
     }
 }
-exports.default = new UI(_boardViewJsDefault.default, _turnViewJsDefault.default, _buttonPanelViewJsDefault.default, _codeCombinationViewJsDefault.default, _occurrenceStatusViewJsDefault.default, _highscoreViewJsDefault.default, _alertViewJsDefault.default);
+var _default = new UI(_BoardView.default, _TurnView.default, _ButtonPanelView.default, _CodeCombinationView.default, _OccurrenceStatusView.default, _HighscoreView.default, _AlertView.default);
+exports.default = _default;
 
-},{"./views/BoardView.js":"6gRRT","./views/TurnView.js":"5XBtl","./views/ButtonPanelView.js":"fwZX2","./views/CodeCombinationView.js":"gR3VX","./views/OccurrenceStatusView.js":"4Jh4j","./views/HighscoreView.js":"3bL2u","./views/AlertView.js":"5KbgG","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"6gRRT":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("../Config.js");
+},{"./views/BoardView.js":"6gRRT","./views/TurnView.js":"5XBtl","./views/ButtonPanelView.js":"fwZX2","./views/CodeCombinationView.js":"gR3VX","./views/OccurrenceStatusView.js":"4Jh4j","./views/HighscoreView.js":"3bL2u","./views/AlertView.js":"5KbgG","@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj","@babel/runtime/helpers/classPrivateFieldSet":"0VOf3"}],"6gRRT":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+var _Config = require("../Config.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _element = /*#__PURE__*/ new WeakMap();
 class BoardView {
-    #element = document.querySelector(".game-board-view");
+    constructor(){
+        _classPrivateFieldInitSpec(this, _element, {
+            writable: true,
+            value: document.querySelector(".game-board-view")
+        });
+    }
     // render a board
     renderBoard(difficulty) {
-        this.#element.innerHTML = '';
-        for(let i = 1; i <= _configJs.MAX_TRIES; i++){
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = '';
+        for(let i = 1; i <= _Config.MAX_TRIES; i++){
             const html = `
             <div class="game-try" data-turn="${i}">
                 <span>Turn ${i}</span>
@@ -930,53 +954,129 @@ class BoardView {
                 </div>
             </div>
             `;
-            this.#element.insertAdjacentHTML("afterbegin", html);
+            (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         }
     }
     getHTMLForChoices(difficulty1) {
         let html = "";
-        for(let i = 0; i < _configJs.GAME_DIFFICULTY[difficulty1].codeLength; i++)html += `<div class="choice choice-number" data-choice="${i}"><span class="number"></span></div>`;
+        for(let i = 0; i < _Config.GAME_DIFFICULTY[difficulty1].codeLength; i++)html += `<div class="choice choice-number" data-choice="${i}"><span class="number"></span></div>`;
         return html;
     }
     getHTMLForOccurrenceStatusFlags(difficulty2) {
         let html = "";
-        for(let i = 0; i < _configJs.GAME_DIFFICULTY[difficulty2].codeLength; i++)html += `<div class="choice occurrence-status-flag" data-occurrence-status="${i}"></div>`;
+        for(let i = 0; i < _Config.GAME_DIFFICULTY[difficulty2].codeLength; i++)html += `<div class="choice occurrence-status-flag" data-occurrence-status="${i}"></div>`;
         return html;
     }
 }
-exports.default = new BoardView();
+var _default = new BoardView();
+exports.default = _default;
 
-},{"../Config.js":"hEUs6","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"5XBtl":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
+},{"@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj","../Config.js":"hEUs6"}],"bfiIA":[function(require,module,exports) {
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+module.exports = _interopRequireDefault;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{}],"lIPAj":[function(require,module,exports) {
+var classApplyDescriptorGet = require("./classApplyDescriptorGet.js");
+var classExtractFieldDescriptor = require("./classExtractFieldDescriptor.js");
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = classExtractFieldDescriptor(receiver, privateMap, "get");
+    return classApplyDescriptorGet(receiver, descriptor);
+}
+module.exports = _classPrivateFieldGet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{"./classApplyDescriptorGet.js":"3nr90","./classExtractFieldDescriptor.js":"28rZn"}],"3nr90":[function(require,module,exports) {
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) return descriptor.get.call(receiver);
+    return descriptor.value;
+}
+module.exports = _classApplyDescriptorGet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{}],"28rZn":[function(require,module,exports) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
+module.exports = _classExtractFieldDescriptor;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{}],"5XBtl":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _activeClass = /*#__PURE__*/ new WeakMap();
+var _playedClass = /*#__PURE__*/ new WeakMap();
 class TurnView {
-    #activeClass = "current-turn";
-    #playedClass = "played-turn";
+    constructor(){
+        _classPrivateFieldInitSpec(this, _activeClass, {
+            writable: true,
+            value: "current-turn"
+        });
+        _classPrivateFieldInitSpec(this, _playedClass, {
+            writable: true,
+            value: "played-turn"
+        });
+    }
     // update turn view style
     updateTurn(currentTurn, isActive = true) {
         const boxElement = document.querySelector(`[data-turn="${currentTurn}"]`);
-        boxElement.classList.add(`${isActive ? this.#activeClass : this.#playedClass}`);
+        boxElement.classList.add(`${isActive ? (0, _classPrivateFieldGet2.default)(this, _activeClass) : (0, _classPrivateFieldGet2.default)(this, _playedClass)}`);
     }
 }
-exports.default = new TurnView();
+var _default = new TurnView();
+exports.default = _default;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"fwZX2":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("../Config.js");
+},{"@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj"}],"fwZX2":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+var _Config = require("../Config.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _element = /*#__PURE__*/ new WeakMap();
 class ButtonPanelView {
-    #element = document.querySelector(".number-picker-view");
+    constructor(){
+        _classPrivateFieldInitSpec(this, _element, {
+            writable: true,
+            value: document.querySelector(".number-picker-view")
+        });
+    }
     renderButtonPanel(difficulty) {
-        this.#element.innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
         let html = "";
         html += this.getHTMLForNumberPickerButtons(difficulty);
-        html += this.getHTMLForControlButtons();
-        // result HTML insert in DOM
-        this.#element.insertAdjacentHTML("beforeend", html);
+        html += this.getHTMLForControlButtons(); // result HTML insert in DOM
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("beforeend", html);
     }
     getHTMLForNumberPickerButtons(difficulty1) {
         let html = "";
-        for(let i = 0; i <= _configJs.GAME_DIFFICULTY[difficulty1].maxNumber; i++)html += `<button class="choice-btn" data-selected-number="${i}">${i}</button>`;
+        for(let i = 0; i <= _Config.GAME_DIFFICULTY[difficulty1].maxNumber; i++)html += `<button class="choice-btn" data-selected-number="${i}">${i}</button>`;
         return html;
     }
     getHTMLForControlButtons() {
@@ -988,68 +1088,109 @@ class ButtonPanelView {
         return html;
     }
 }
-exports.default = new ButtonPanelView();
+var _default = new ButtonPanelView();
+exports.default = _default;
 
-},{"../Config.js":"hEUs6","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"gR3VX":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("../config.js");
+},{"@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj","../Config.js":"hEUs6"}],"gR3VX":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _config = require("../config.js");
 class CodeCombinationView {
     renderCodeCombination(currentTurn, guessedCode, difficulty) {
         const element = document.querySelector(`[data-turn="${currentTurn}"]`);
-        for(let i = 0; i < _configJs.GAME_DIFFICULTY[difficulty].codeLength; i++){
+        for(let i = 0; i < _config.GAME_DIFFICULTY[difficulty].codeLength; i++){
             const numberElement = element.querySelector(`[data-choice="${i}"] span`);
             if (guessedCode[i] !== undefined) numberElement.innerHTML = guessedCode[i];
             else numberElement.innerHTML = "";
         }
     }
 }
-exports.default = new CodeCombinationView();
+var _default = new CodeCombinationView();
+exports.default = _default;
 
-},{"../config.js":"6V52N","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"4Jh4j":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("../config.js");
+},{"../config.js":"6V52N"}],"4Jh4j":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _config = require("../config.js");
+function _classPrivateMethodInitSpec(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+function _classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+    return fn;
+}
+var _getColorFlags = /*#__PURE__*/ new WeakSet();
 class OccurrenceStatusView {
-     #getColorFlags(occurrenceStatus) {
-        /*
-    {inPlaceCount: 1, changedPlaceCount: 2, wrongCount: 1}
-    "red white white black "
-    "red white white black".split(" ");
-    [0] = red
-    [1] = white
-    [2] = white
-    [3] = black
-    */ const { inPlaceCount , changedPlaceCount , wrongCount  } = occurrenceStatus;
-        const red = "red ".repeat(inPlaceCount);
-        const white = "white ".repeat(changedPlaceCount);
-        const black = "black ".repeat(wrongCount);
-        return (red + white + black).trim().split(" ");
+    constructor(){
+        _classPrivateMethodInitSpec(this, _getColorFlags);
     }
     renderOccurrenceStatus(currentTurn, occurrenceStatus1, difficulty) {
-        console.log(occurrenceStatus1);
-        const colorFlags = this.#getColorFlags(occurrenceStatus1);
+        const colorFlags = _classPrivateMethodGet(this, _getColorFlags, _getColorFlags2).call(this, occurrenceStatus1);
         const element = document.querySelector(`.game-try [data-turn="${currentTurn}"]`);
-        for(let i = 0; i < _configJs.GAME_DIFFICULTY[difficulty].codeLength; i++){
+        for(let i = 0; i < _config.GAME_DIFFICULTY[difficulty].codeLength; i++){
             const statusElement = element.querySelector(`[data-occurrence-status="${i}"]`);
             statusElement.style.backgroundColor = colorFlags[i];
         }
     }
 }
-exports.default = new OccurrenceStatusView();
+function _getColorFlags2(occurrenceStatus) {
+    /*
+  {inPlaceCount: 1, changedPlaceCount: 2, wrongCount: 1}
+  "red white white black "
+  "red white white black".split(" ");
+  [0] = red
+  [1] = white
+  [2] = white
+  [3] = black
+  */ const { inPlaceCount , changedPlaceCount , wrongCount  } = occurrenceStatus;
+    const red = "red ".repeat(inPlaceCount);
+    const white = "white ".repeat(changedPlaceCount);
+    const black = "black ".repeat(wrongCount);
+    return (red + white + black).trim().split(" ");
+}
+var _default = new OccurrenceStatusView();
+exports.default = _default;
 
-},{"../config.js":"6V52N","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"3bL2u":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _helpersJs = require("../helpers.js");
-var _configJs = require("../config.js");
+},{"../config.js":"6V52N"}],"3bL2u":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+var _helpers = require("../helpers.js");
+var _config = require("../config.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _element = /*#__PURE__*/ new WeakMap();
 class HighscoreView {
-    #element = document.querySelector(".alert-view");
+    constructor(){
+        _classPrivateFieldInitSpec(this, _element, {
+            writable: true,
+            value: document.querySelector(".alert-view")
+        });
+    }
     renderHighscores(highscores) {
-        this.#element.innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
         let html = `
       <div class="high-score-display">
-      <h1>Top ${_configJs.MAX_ENTRIES} High Scores</h1>
+      <h1>Top ${_config.MAX_ENTRIES} High Scores</h1>
       <button class="btn-close-alert">X</button>
       <ul class="high-score-container">
     `;
@@ -1059,48 +1200,74 @@ class HighscoreView {
           <span>${i + 1}</span>
           <span class="high-score-username">${item.playerName}</span>
           <span class="high-score-moves">${item.numOfTries} tries</span> 
-          <span class="high-score-time">${_helpersJs.formatTime(+item.duration)}</span>
+          <span class="high-score-time">${(0, _helpers.formatTime)(+item.duration)}</span>
         </li>
       `;
         });
         html += "</ul></div>";
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
     }
 }
-exports.default = new HighscoreView();
+var _default = new HighscoreView();
+exports.default = _default;
 
-},{"../helpers.js":"9RX9R","../config.js":"6V52N","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"9RX9R":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "capitalize", ()=>capitalize
-);
-parcelHelpers.export(exports, "formatTime", ()=>formatTime
-);
+},{"@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj","../helpers.js":"9RX9R","../config.js":"6V52N"}],"9RX9R":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.formatTime = exports.capitalize = void 0;
 const capitalize = function(string) {
     return string[0].toUpperCase() + string.slice(1);
 };
+exports.capitalize = capitalize;
 const formatTime = function(mills) {
     const seconds = `${Math.floor(mills / 1000 % 60)}`.padStart(2, 0);
     const minutes = `${Math.floor(mills / 1000 / 60 % 60)}`.padStart(2, 0);
     const hours = `${Math.floor(mills / 1000 / 3600 % 24)}`.padStart(2, 0);
     return `${hours == '00' ? '' : `${hours}h `}${minutes}min ${seconds}s`;
 };
+exports.formatTime = formatTime;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"5KbgG":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _configJs = require("../config.js");
-var _highscoreViewJs = require("./HighscoreView.js");
-var _highscoreViewJsDefault = parcelHelpers.interopDefault(_highscoreViewJs);
+},{}],"5KbgG":[function(require,module,exports) {
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var _classPrivateFieldGet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldGet"));
+var _classPrivateFieldSet2 = _interopRequireDefault(require("@babel/runtime/helpers/classPrivateFieldSet"));
+var _config = require("../config.js");
+var _HighscoreView = _interopRequireDefault(require("./HighscoreView.js"));
+function _classPrivateFieldInitSpec(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+var _element = /*#__PURE__*/ new WeakMap();
+var _overlay = /*#__PURE__*/ new WeakMap();
+var _highscoreView = /*#__PURE__*/ new WeakMap();
 class AlertView {
-    #element = document.querySelector(".alert-view");
-    #overlay = document.querySelector(".overlay");
-    #highscoreView = null;
     constructor(highscoreView){
-        this.#highscoreView = highscoreView;
+        _classPrivateFieldInitSpec(this, _element, {
+            writable: true,
+            value: document.querySelector(".alert-view")
+        });
+        _classPrivateFieldInitSpec(this, _overlay, {
+            writable: true,
+            value: document.querySelector(".overlay")
+        });
+        _classPrivateFieldInitSpec(this, _highscoreView, {
+            writable: true,
+            value: null
+        });
+        (0, _classPrivateFieldSet2.default)(this, _highscoreView, highscoreView);
     }
     showModalForGameRules() {
-        this.#element.innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
         const html = `
       <div class="game-rules">
         <button class="btn-close-alert">X</button>
@@ -1128,11 +1295,11 @@ class AlertView {
         </p>
       </div>
     `;
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         this.toggleAlert();
     }
     showModalForCredits() {
-        this.#element.innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
         const html = `
       <div class="credits">
         <button class="btn-close-alert">X</button>
@@ -1142,57 +1309,79 @@ class AlertView {
         </p>
       </div>
     `;
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         this.toggleAlert();
     }
     showModalForHighscores(highscores) {
-        this.#element.innerHTML = "";
-        this.#highscoreView.renderHighscores(highscores);
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _highscoreView).renderHighscores(highscores);
         this.toggleAlert();
     }
-    // show alert for winning case
     showAlertForWinningCondition() {
-        this.#element.innerHTML = "";
-        // render HTML
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = ""; // render HTML
         const html = `
       <p class="message">You broke the secret code!</p>
       <label for="name">Input your name:</label>
       <input type="text" id="playerName" />
       <button class="btn-submit-highscore">Submit</button>
     `;
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         this.toggleAlert();
     }
     showAlertForLosingCondition(secretCode, difficulty) {
-        this.#element.innerHTML = "";
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = "";
         let html = `
       <button class="btn-close-alert">X</button>
       <p class="message">Sorry! You didn't break the code!</p>
       <p class="message">Secret code was:</p>
       <div class="secret-container">`;
-        for(let i = 0; i < _configJs.GAME_DIFFICULTY[difficulty].codeLength; i++)html += `<div class="choice choice-number"><span class="number">${secretCode[i]}</span></div>`;
+        for(let i = 0; i < _config.GAME_DIFFICULTY[difficulty].codeLength; i++)html += `<div class="choice choice-number"><span class="number">${secretCode[i]}</span></div>`;
         html += "</div>";
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         this.toggleAlert();
     }
     showAlertOnInvalidInput(difficulty1) {
-        this.#element.innerHTML = "";
-        // render HTML
-        const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${_configJs.GAME_DIFFICULTY[difficulty1].codeLength}!</p>`;
-        this.#element.insertAdjacentHTML("afterbegin", html);
+        (0, _classPrivateFieldGet2.default)(this, _element).innerHTML = ""; // render HTML
+        const html = `<button class="btn-close-alert">X</button><p class="message">Code length needs to be ${_config.GAME_DIFFICULTY[difficulty1].codeLength}!</p>`;
+        (0, _classPrivateFieldGet2.default)(this, _element).insertAdjacentHTML("afterbegin", html);
         this.toggleAlert();
     }
-    // toggle (show/hide alert)
     toggleAlert() {
-        this.#element.classList.toggle("hidden");
-        this.#overlay.classList.toggle("hidden");
+        (0, _classPrivateFieldGet2.default)(this, _element).classList.toggle("hidden");
+        (0, _classPrivateFieldGet2.default)(this, _overlay).classList.toggle("hidden");
     }
 }
-exports.default = new AlertView(_highscoreViewJsDefault.default);
+var _default = new AlertView(_HighscoreView.default);
+exports.default = _default;
 
-},{"../config.js":"6V52N","./HighscoreView.js":"3bL2u","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"1T13D":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
+},{"@babel/runtime/helpers/interopRequireDefault":"bfiIA","@babel/runtime/helpers/classPrivateFieldGet":"lIPAj","@babel/runtime/helpers/classPrivateFieldSet":"0VOf3","../config.js":"6V52N","./HighscoreView.js":"3bL2u"}],"0VOf3":[function(require,module,exports) {
+var classApplyDescriptorSet = require("./classApplyDescriptorSet.js");
+var classExtractFieldDescriptor = require("./classExtractFieldDescriptor.js");
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = classExtractFieldDescriptor(receiver, privateMap, "set");
+    classApplyDescriptorSet(receiver, descriptor, value);
+    return value;
+}
+module.exports = _classPrivateFieldSet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{"./classApplyDescriptorSet.js":"h7ICq","./classExtractFieldDescriptor.js":"28rZn"}],"h7ICq":[function(require,module,exports) {
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) descriptor.set.call(receiver, value);
+    else {
+        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+        descriptor.value = value;
+    }
+}
+module.exports = _classApplyDescriptorSet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+},{}],"1T13D":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
 class EventListener {
     addEventListenerForNewGame(clickHandler) {
         const button = document.querySelector(`[data-menu-item="new-game"]`);
@@ -1223,44 +1412,93 @@ class EventListener {
         });
     }
 }
-exports.default = new EventListener();
+var _default = new EventListener();
+exports.default = _default;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"iVczu":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _modelJs = require("../Model.js");
-var _configJs = require("../config.js");
+},{}],"iVczu":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = void 0;
+var model = _interopRequireWildcard(require("../Model.js"));
+var _config = require("../config.js");
+function _getRequireWildcardCache(nodeInterop1) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop1);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") return {
+        default: obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj.default = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _classPrivateMethodInitSpec(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+function _classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+    return fn;
+}
+var _sliceHighscores = /*#__PURE__*/ new WeakSet();
+var _sortHighScores = /*#__PURE__*/ new WeakSet();
+var _storeHighscore = /*#__PURE__*/ new WeakSet();
 class HighscoreService {
     constructor(){
-        const highscores = localStorage.getItem(_configJs.LOCAL_STORAGE_KEY);
+        _classPrivateMethodInitSpec(this, _storeHighscore);
+        _classPrivateMethodInitSpec(this, _sortHighScores);
+        _classPrivateMethodInitSpec(this, _sliceHighscores);
+        const highscores = localStorage.getItem(_config.LOCAL_STORAGE_KEY);
         console.log(highscores);
-        if (null !== highscores) _modelJs.setHighscores(JSON.parse(highscores));
+        if (null !== highscores) model.setHighscores(JSON.parse(highscores));
     }
     clearHighscores() {
-        localStorage.clear(_configJs.LOCAL_STORAGE_KEY);
+        localStorage.clear(_config.LOCAL_STORAGE_KEY);
     }
     addScore(highscoreData) {
-        _modelJs.getHighscores().push(highscoreData);
-        this.#sortHighScores();
-        _modelJs.setHighscores(this.#sliceHighscores());
-        this.#storeHighscore();
-    }
-     #sliceHighscores() {
-        return _modelJs.getHighscores().slice(0, _configJs.MAX_ENTRIES);
-    }
-     #sortHighScores() {
-        return _modelJs.getHighscores().sort((a, b)=>{
-            if (a.numOfTries > b.numOfTries) return 1;
-            if (a.numOfTries < b.numOfTries) return -1;
-            if (a.duration > b.duration) return 1;
-            if (a.duration < b.duration) return -1;
-        });
-    }
-     #storeHighscore() {
-        localStorage.setItem(_configJs.LOCAL_STORAGE_KEY, JSON.stringify(_modelJs.getHighscores()));
+        model.getHighscores().push(highscoreData);
+        _classPrivateMethodGet(this, _sortHighScores, _sortHighScores2).call(this);
+        model.setHighscores(_classPrivateMethodGet(this, _sliceHighscores, _sliceHighscores2).call(this));
+        _classPrivateMethodGet(this, _storeHighscore, _storeHighscore2).call(this);
     }
 }
-exports.default = new HighscoreService(); /*
+function _sliceHighscores2() {
+    return model.getHighscores().slice(0, _config.MAX_ENTRIES);
+}
+function _sortHighScores2() {
+    return model.getHighscores().sort((a, b)=>{
+        if (a.numOfTries > b.numOfTries) return 1;
+        if (a.numOfTries < b.numOfTries) return -1;
+        if (a.duration > b.duration) return 1;
+        if (a.duration < b.duration) return -1;
+    });
+}
+function _storeHighscore2() {
+    localStorage.setItem(_config.LOCAL_STORAGE_KEY, JSON.stringify(model.getHighscores()));
+}
+var _default = new HighscoreService();
+/*
 abstract class BaseHighscoreService implements ExampleInterface {
   // common functionality
 }
@@ -1305,8 +1543,8 @@ class LocalStorageService extends HighscoreService {
 
 DEVELOPER A has code in his project
 DEVELOPER B to write extended version of that code
-*/ 
+*/ exports.default = _default;
 
-},{"../Model.js":"ejWFH","../config.js":"6V52N","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}]},["1urTD","bbGHz"], "bbGHz", "parcelRequire22c8")
+},{"../Model.js":"ejWFH","../config.js":"6V52N"}]},["1urTD","bbGHz"], "bbGHz", "parcelRequire22c8")
 
 //# sourceMappingURL=index.cd8f74dd.js.map
