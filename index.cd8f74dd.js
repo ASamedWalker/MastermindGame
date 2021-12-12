@@ -944,7 +944,6 @@ class BoardView {
         for(let i = 1; i <= _Config.MAX_TRIES; i++){
             const html = `
             <div class="game-try" data-turn="${i}">
-                <span>Turn ${i}</span>
                 <div class="choice-row">
                     ${this.getHTMLForChoices(difficulty)}
                 </div>
@@ -1144,15 +1143,7 @@ class OccurrenceStatusView {
     }
 }
 function _getColorFlags2(occurrenceStatus) {
-    /*
-  {inPlaceCount: 1, changedPlaceCount: 2, wrongCount: 1}
-  "red white white black "
-  "red white white black".split(" ");
-  [0] = red
-  [1] = white
-  [2] = white
-  [3] = black
-  */ const { inPlaceCount , changedPlaceCount , wrongCount  } = occurrenceStatus;
+    const { inPlaceCount , changedPlaceCount , wrongCount  } = occurrenceStatus;
     const red = "red ".repeat(inPlaceCount);
     const white = "white ".repeat(changedPlaceCount);
     const black = "black ".repeat(wrongCount);
@@ -1498,52 +1489,7 @@ function _storeHighscore2() {
     localStorage.setItem(_config.LOCAL_STORAGE_KEY, JSON.stringify(model.getHighscores()));
 }
 var _default = new HighscoreService();
-/*
-abstract class BaseHighscoreService implements ExampleInterface {
-  // common functionality
-}
-
-class HighscoreServiceAPI extends BaseHighscoreService {
-  // send it to backend server
-  addScore() {
-    // send to server
-  }
-}
-
-class HighscoreServiceInFile extends BaseHighscoreService {
-  // save to file
-  addScore();
-}
-
-class HighscoreServiceLocalStorage extends BaseHighscoreService {
-  // save to local storage
-  addScore();
-}
-
-// DEVELOPER A
-class HighscoreService {
-  //
-  // common functionality
-  // sortData
-  // printData
-  //
-  //-----------------------------
-  // send/save
-  sendToServer(highscoreData);
-  saveToFile(highscoreData);
-}
-
-// DEVELOPER B
-1) Extends HighscoreService
-class LocalStorageService extends HighscoreService {
-  addScore() {
-    // save in local storage
-  }
-}
-
-DEVELOPER A has code in his project
-DEVELOPER B to write extended version of that code
-*/ exports.default = _default;
+exports.default = _default;
 
 },{"../Model.js":"ejWFH","../config.js":"6V52N"}]},["1urTD","bbGHz"], "bbGHz", "parcelRequire22c8")
 
