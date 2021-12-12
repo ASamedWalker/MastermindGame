@@ -1,16 +1,6 @@
 import { GAME_DIFFICULTY } from "../config.js";
 class OccurrenceStatusView {
   #getColorFlags(occurrenceStatus) {
-    /*
-    {inPlaceCount: 1, changedPlaceCount: 2, wrongCount: 1}
-    "red white white black "
-    "red white white black".split(" ");
-    [0] = red
-    [1] = white
-    [2] = white
-    [3] = black
-    */
-
     const { inPlaceCount, changedPlaceCount, wrongCount } = occurrenceStatus;
     const red = "red ".repeat(inPlaceCount);
     const white = "white ".repeat(changedPlaceCount);
