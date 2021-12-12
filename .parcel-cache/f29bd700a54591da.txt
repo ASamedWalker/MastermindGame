@@ -28,7 +28,7 @@
 60C:\Users\samed\MastermindGame\node_modules\lodash\fp\next.js132836427696874914 0
 67C:\Users\samed\MastermindGame\node_modules\core-js\es\array\sort.js132836427756454923 0
 72C:\Users\samed\MastermindGame\node_modules\fast-glob\out\utils\stream.js132836427487604339 0
-38C:\Users\samed\MastermindGame\.babelrc132836657324648444 0
+38C:\Users\samed\MastermindGame\.babelrc132837060038670660 0
 88C:\Users\samed\MastermindGame\node_modules\split2\node_modules\readable-stream\README.md132836427495264784 0
 74C:\Users\samed\MastermindGame\node_modules\caniuse-lite\data\regions\AX.js132836427541864472 0
 59C:\Users\samed\MastermindGame\node_modules\uuid\lib\sha1.js132836427393094381 0
@@ -93,7 +93,7 @@
 90C:\Users\samed\MastermindGame\node_modules\lmdb-store\prebuilds\darwin-x64\node.abi83.node132836427644545349 0
 84C:\Users\samed\MastermindGame\node_modules\@nodelib\fs.scandir\out\providers\sync.js132836427420154406 0
 109C:\Users\samed\MastermindGame\node_modules\@babel\preset-modules\lib\plugins\transform-safari-block-shadowing132836650065299316 1
-34C:\Users\samed\MastermindGame\dist132836674314748275 1
+34C:\Users\samed\MastermindGame\dist132837461067803454 1
 79C:\Users\samed\MastermindGame\node_modules\core-js\stable\number\parse-float.js132836427745255221 0
 92C:\Users\samed\MastermindGame\node_modules\caniuse-lite\data\features\css-backdrop-filter.js132836427592414776 0
 64C:\Users\samed\MastermindGame\node_modules\ordered-binary\assets132836427379744381 1
@@ -204,7 +204,7 @@
 93C:\Users\samed\MastermindGame\node_modules\lmdb-store\prebuilds\linux-x64\electron.abi98.node132836427609324783 0
 47C:\Users\samed\MastermindGame\node_modules\.bin132836650117414782 1
 69C:\Users\samed\MastermindGame\node_modules\node-releases\package.json132836427292048233 0
-44C:\Users\samed\MastermindGame\src\index.html132836669472118946 0
+44C:\Users\samed\MastermindGame\src\index.html132837457078843544 0
 73C:\Users\samed\MastermindGame\node_modules\object-inspect\test\element.js132836427397724661 0
 89C:\Users\samed\MastermindGame\node_modules\core-js\internals\normalize-string-argument.js132836427739704909 0
 96C:\Users\samed\MastermindGame\node_modules\@parcel\transformer-json\node_modules\json5\README.md132836427442194346 0
@@ -247,7 +247,7 @@
 53C:\Users\samed\MastermindGame\src\js\EventListener.js132836574196261226 0
 62C:\Users\samed\MastermindGame\node_modules\parse5\package.json132836427250968239 0
 75C:\Users\samed\MastermindGame\node_modules\core-js\stable\weak-set\index.js132836427711934938 0
-50C:\Users\samed\MastermindGame\src\js\Controller.js132836574196261226 0
+50C:\Users\samed\MastermindGame\src\js\Controller.js132837149769407609 0
 110C:\Users\samed\MastermindGame\node_modules\postcss-modules-values\node_modules\source-map\lib\binary-search.js132836427379104341 0
 62C:\Users\samed\MastermindGame\node_modules\pinkie\package.json132836434072591643 0
 78C:\Users\samed\MastermindGame\node_modules\gh-pages\node_modules\async\each.js132836434075441653 0
@@ -356,7 +356,7 @@
 103C:\Users\samed\MastermindGame\node_modules\postcss-modules\node_modules\source-map\lib\binary-search.js132836427378744389 0
 59C:\Users\samed\MastermindGame\src\js\views\HighscoreView.js132836574196521240 0
 69C:\Users\samed\MastermindGame\node_modules\public-encrypt\.travis.yml132836427264948210 0
-66C:\Users\samed\MastermindGame\src\js\views\OccurrenceStatusView.js132836574196531249 0
+66C:\Users\samed\MastermindGame\src\js\views\OccurrenceStatusView.js132837442204277796 0
 64C:\Users\samed\MastermindGame\src\js\service\HighscoreService.js132836574196281217 0
 68C:\Users\samed\MastermindGame\node_modules\postcss-svgo\package.json132836427305171283 0
 107C:\Users\samed\MastermindGame\node_modules\stream-browserify\node_modules\readable-stream\errors-browser.js132836427426214363 0
@@ -404,7 +404,7 @@
 92C:\Users\samed\MastermindGame\node_modules\es-abstract\2021\OrdinaryCreateFromConstructor.js132836427694454920 0
 62C:\Users\samed\MastermindGame\node_modules\ansi-html-community132836427318044345 1
 99C:\Users\samed\MastermindGame\node_modules\uncss\node_modules\source-map\dist\source-map.min.js.map132836427512634461 0
-47C:\Users\samed\MastermindGame\src\css\style.css132836674301988266 0
+47C:\Users\samed\MastermindGame\src\css\style.css132837459181680403 0
 95C:\Users\samed\MastermindGame\node_modules\caniuse-lite\data\features\document-currentscript.js132836427626885216 0
 68C:\Users\samed\MastermindGame\node_modules\supports-color\browser.js132836427265248205 0
 110C:\Users\samed\MastermindGame\node_modules\regenerate-unicode-properties\Script_Extensions\Imperial_Aramaic.js132836650094429156 0
@@ -2959,7 +2959,7 @@
 100C:\Users\samed\MastermindGame\node_modules\postcss-modules-scope\node_modules\supports-color\license132836427296128375 0
 61C:\Users\samed\MastermindGame\node_modules\xtend\package.json132836427251138489 0
 62C:\Users\samed\MastermindGame\node_modules\assert\CHANGELOG.md132836427266018220 0
-52C:\Users\samed\MastermindGame\dist\index.cd8f74dd.js132836674313838256 0
+52C:\Users\samed\MastermindGame\dist\index.cd8f74dd.js132837461067323908 0
 108C:\Users\samed\MastermindGame\node_modules\lmdb-store\dependencies\lmdb-data-v1\libraries\liblmdb\mdb_copy.c132836427523464456 0
 60C:\Users\samed\MastermindGame\node_modules\lodash\_baseGt.js132836427542554613 0
 67C:\Users\samed\MastermindGame\node_modules\lodash\_baseFunctions.js132836427541054460 0
@@ -8139,7 +8139,7 @@
 67C:\Users\samed\MastermindGame\node_modules\pako\lib\utils\common.js132836427318084346 0
 84C:\Users\samed\MastermindGame\node_modules\core-js\internals\advance-string-index.js132836427477184343 0
 75C:\Users\samed\MastermindGame\node_modules\@nodelib\fs.scandir\out\index.js132836427374174352 0
-57C:\Users\samed\MastermindGame\dist\index.9aaf493e.css.map132836674314718290 0
+57C:\Users\samed\MastermindGame\dist\index.9aaf493e.css.map132837461067783470 0
 64C:\Users\samed\MastermindGame\node_modules\pako\dist\pako.min.js132836427514694459 0
 77C:\Users\samed\MastermindGame\node_modules\core-js\features\instance\flags.js132836427699014912 0
 68C:\Users\samed\MastermindGame\node_modules\pako\dist\pako_deflate.js132836427484164360 0
@@ -18185,13 +18185,13 @@
 56C:\Users\samed\MastermindGame\dist\index.7b775967.js.map132836435984581622 0
 57C:\Users\samed\MastermindGame\dist\index.8b3bce53.css.map132836674314738283 0
 56C:\Users\samed\MastermindGame\dist\index.8b5d5734.js.map132836655574288476 0
-53C:\Users\samed\MastermindGame\dist\index.9aaf493e.css132836674314698292 0
+53C:\Users\samed\MastermindGame\dist\index.9aaf493e.css132837461067283963 0
 52C:\Users\samed\MastermindGame\dist\index.a62d9d40.js132836641314987265 0
 56C:\Users\samed\MastermindGame\dist\index.be4ba773.js.map132836641315257318 0
 56C:\Users\samed\MastermindGame\dist\index.c6470a86.js.map132836657455683852 0
-56C:\Users\samed\MastermindGame\dist\index.cd8f74dd.js.map132836674313858292 0
+56C:\Users\samed\MastermindGame\dist\index.cd8f74dd.js.map132837461067783470 0
 57C:\Users\samed\MastermindGame\dist\index.e32aaab1.css.map132836657455663964 0
 53C:\Users\samed\MastermindGame\dist\index.e3d3caef.css132836435984491628 0
 57C:\Users\samed\MastermindGame\dist\index.e3d3caef.css.map132836435984581622 0
 57C:\Users\samed\MastermindGame\dist\index.e70d1484.css.map132836657455663964 0
-45C:\Users\samed\MastermindGame\dist\index.html132836674313278283 0
+45C:\Users\samed\MastermindGame\dist\index.html132837461067323908 0
