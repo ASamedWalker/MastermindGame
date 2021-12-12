@@ -6,7 +6,7 @@
   "description": "1. History of MasterMind Game\r     2. Goals\r     3. Gameplay\r     4. Track Scores",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url https://asamedwalker.github.io/MastermindGame",
+    "build": "rm -rf dist && parcel build src/index.html --public-url https://asamedwalker.github.io/MastermindGame",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
