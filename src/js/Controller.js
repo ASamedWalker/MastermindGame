@@ -16,7 +16,6 @@ const initModel = async (difficulty) => {
 
   let secretCode = await codeMaker.fetchRandomNumbers(difficulty);
   model.setSecretCode(secretCode);
-  console.log(secretCode);
 };
 
 const initUI = () => {
