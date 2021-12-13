@@ -28,13 +28,14 @@ export const getGuessedCode = () => {
   return gameState.guessedCode;
 };
 
+export const setOccurrenceStatus = (occurrenceStatus) => {
+  gameState.occurrenceStatus = occurrenceStatus;
+}
+
 export const getOccurrenceStatus = () => {
   return gameState.occurrenceStatus;
 };
 
-export const setOccurrenceStatus = (occurrenceStatus) => {
-  gameState.occurrenceStatus = occurrenceStatus;
-}
 
 export const incrementTurn = () => {
   gameState.currentTurn++;
