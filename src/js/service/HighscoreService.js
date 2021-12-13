@@ -4,7 +4,6 @@ import { LOCAL_STORAGE_KEY, MAX_ENTRIES } from "../config.js";
 class HighscoreService {
   constructor() {
     const highscores = localStorage.getItem(LOCAL_STORAGE_KEY);
-    console.log(highscores)
     if (null !== highscores) {
       model.setHighscores(JSON.parse(highscores));
     }
